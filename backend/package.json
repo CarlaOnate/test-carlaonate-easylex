@@ -1,12 +1,23 @@
 {
-  "name": "test-carlaonate-easylex",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "apollo-server-core": "^3.4.0",
+    "apollo-server-express": "^3.4.0",
+    "cookie-parser": "^1.4.5",
+    "debug": "^2.6.9",
+    "dotenv": "^10.0.0",
+    "express": "^4.16.4",
+    "express-session": "^1.17.2",
+    "graphql": "^15.7.2",
+    "http": "0.0.1-security",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "mongoose": "^6.0.12",
+    "morgan": "~1.9.1"
+  }
 }
