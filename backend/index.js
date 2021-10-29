@@ -10,23 +10,23 @@ const http = require('http');
 
 
 //Type defs import
-const typeDefs = require('./typeDefs/index')
-const resolvers = require('./resolvers/index')
+const typeDefs = require('./src/typeDefs/index')
+const resolvers = require('./src/resolvers/index')
 
 // mongoose.set('useCreateIndex', true);
-// mongoose
-//     .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true})
-//     .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
-//     .catch((err) => console.error('Error connecting to mongo', err));
+mongoose
+    .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true})
+    .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
+    .catch((err) => console.error('Error connecting to mongo', err));
 
 
-const app = express();
+const index = express();
 
 //Initializing things
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(session({
+index.use(cookieParser());
+index.use(express.json());
+index.use(express.urlencoded({ extended: false }));
+index.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true
@@ -49,4 +49,4 @@ async function startApolloServer(typeDefs, resolvers) {
 
 startApolloServer(typeDefs, resolvers)
 
-module.exports = app;
+module.exports = index;

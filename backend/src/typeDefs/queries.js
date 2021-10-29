@@ -2,7 +2,10 @@ const {gql} = require("apollo-server-express")
 
 const queries = gql`
     type Query {
-        cart(input: String): String
+        #Product
+        getProduct(type: String): Product,
+        getPrice(type: String): Int
+        
     }
 `
 
