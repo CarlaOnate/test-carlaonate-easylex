@@ -15,19 +15,21 @@ function App() {
     //Hook to use mutation
     const [createCart, {data, loading, error}] = useMutation(CREATE_CART);
     const [change, setChange] = useState(false);
-    const [cartId, setCartId] = useState()
+    // const [cart, setCart] = useState()
 
     useEffect(() => {
         const newCart = async () => {
             await createCart()
         }
         newCart()
-        !loading && setCartId(data.createCart)
     }, [])
+
+    if(loading) return <p>Loading...</p>
+    if(error) return <p>Sth went wrong</p>
 
     return (
     <div>
-     <Menu changeState={setChange} cart={cartId}/>
+     <Menu setChange={setChange} cart={data}/>
      <Cart change={change}/>
     </div>
   );

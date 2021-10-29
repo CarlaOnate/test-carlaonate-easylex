@@ -16,8 +16,16 @@ const cart = {
             })
             return cart.id
         },
-        addItem: async (_, {type}) => {
-            console.log(type)
+        addItem: async (_, {type, cartId}) => {
+            console.log(type, cartId)
+            const product = await Product.findOne({type: type}).exec()
+            console.log(product)
+
+            // const itemInd = cart.items.find()
+            // cart.items[itemInd].qty += 1
+            // cart.save()
+            // console.log(cart)
+
         },
         calculateDiscount: () => {}
 

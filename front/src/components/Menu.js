@@ -24,8 +24,8 @@ const GETPRODUCTS = gql`
 
 
 const ADDITEM = gql`
-    mutation addItem($type: String){
-        addItem(type: $type){
+    mutation addItem($type: String, $cartId: ID){
+        addItem(type: $type, cartId: $cartId){
              id
             items {
                 type
@@ -40,11 +40,10 @@ const ADDITEM = gql`
 `
 
 
-function Menu({setChange}){
+function Menu({setChange, cart}){
+    console.log(cart)
     const {loading, error, data} = useQuery(GETPRODUCTS)
     const [addItem, addItemResponse] = useMutation(ADDITEM)
-
-    console.log(data)
 
     const onHandleDelete = () => {
         setChange(prev => !prev)
@@ -52,8 +51,8 @@ function Menu({setChange}){
 
     const onHandleAdd = async ({target}) => {
         //So far so good
-        await addItem({
-            variables: {type: target.id}
+        cart && await addItem({
+            variables: {type: target.id, cartId: cart.createCart}
         })
         setChange(prev => !prev)
     }
