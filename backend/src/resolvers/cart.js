@@ -1,4 +1,5 @@
-const {Cart} = require("../models/Cart")
+const Cart = require("../models/Cart")
+const Product = require("../models/Product")
 
 const cart = {
 
@@ -15,9 +16,10 @@ const cart = {
             })
             return "Created Cart"
         },
-        addItem: async () => {
-
-        }
+        addItem: async (_, {type}) => {
+            console.log(type)
+        },
+        calculateDiscount: () => {}
 
     }
 }

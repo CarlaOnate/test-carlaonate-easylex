@@ -5,18 +5,8 @@ import styled from 'styled-components'
 import {useState} from "react";
 
 
-
-
-const ADD_ITEM = gql`
-    mutation createCart{
-        createCart
-    }
-`
-
-
 function App() {
     //Hook to use mutation
-    const [createCart] = useMutation(ADD_ITEM);
     const [change, setChange] = useState(false);
 
     return (
