@@ -4,9 +4,7 @@ const product = {
 
     Query: {
         getProducts: async () => {
-            const listProductos = await Product.find()
-            console.log(listProductos)
-            return listProductos
+            return Product.find();
         }
 
     },

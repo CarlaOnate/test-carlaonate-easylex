@@ -8,13 +8,13 @@ const cart = {
     },
     Mutation: {
         createCart: async () => {
-            await Cart.create({
+            const cart = await Cart.create({
                 items: [],
                 subtotal: 0,
                 discount: 0,
                 total: 0,
             })
-            return "Created Cart"
+            return cart.id
         },
         addItem: async (_, {type}) => {
             console.log(type)

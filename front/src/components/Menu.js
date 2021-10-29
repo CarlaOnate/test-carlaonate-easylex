@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useQuery, u, gql, useMutation} from "@apollo/client";
+import {useQuery, gql, useMutation} from "@apollo/client";
 
 
 const MenuDiv = styled.div`
@@ -40,7 +40,7 @@ const ADDITEM = gql`
 `
 
 
-function Menu({changeState: {setChange}}){
+function Menu({setChange}){
     const {loading, error, data} = useQuery(GETPRODUCTS)
     const [addItem, addItemResponse] = useMutation(ADDITEM)
 

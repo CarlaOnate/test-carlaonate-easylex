@@ -6,8 +6,8 @@ const mutations = gql`
         fillProducts: String
         
         #Cart 
-        createCart: String
-        addItem(type: String): Cart 
+        createCart: ID!
+        addItem(type: String, cart: ID): Cart 
         calculateDiscount: Cart
     }
 `
