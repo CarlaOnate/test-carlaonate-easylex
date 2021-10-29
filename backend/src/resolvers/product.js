@@ -2,7 +2,14 @@ const Product = require("../models/Product")
 
 const product = {
 
-    Query: {},
+    Query: {
+        getProducts: async () => {
+            const listProductos = await Product.find()
+            console.log(listProductos)
+            return listProductos
+        }
+
+    },
 
     Mutation: {
         fillProducts: async () => {

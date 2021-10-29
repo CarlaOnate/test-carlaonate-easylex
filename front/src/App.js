@@ -1,6 +1,8 @@
 import Menu from "./components/Menu"
 import { useMutation, gql } from "@apollo/client";
-import {useEffect} from "react";
+import styled from 'styled-components'
+
+
 
 
 const ADD_ITEM = gql`
@@ -17,9 +19,10 @@ function App() {
     return (
     <div>
      <Menu />
-     <p> jiji </p>
     </div>
   );
 }
+
+
 
 export default App;
