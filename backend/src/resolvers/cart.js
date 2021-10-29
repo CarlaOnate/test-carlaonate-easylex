@@ -32,10 +32,15 @@ const cart = {
             } else {
                 cart.items.push({item: product.id, qty: 1})
             }
-            cart.save()
+            await cart.save()
+            await cart.populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
 
-            console.log(cart)
             return cart
+            // id: ID!
+            //     items: [Product]
+            // subtotal: Int
+            // discount: Int
+            // total: Int
         },
         deleteItem: async (_, {type, cartId}) => {},
         calculateDiscount: () => {}

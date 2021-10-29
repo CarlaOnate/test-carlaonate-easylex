@@ -11,10 +11,15 @@ const types = gql`
     
     type Cart {
         id: ID!
-        items: [Product]
+        items: [Items]
         subtotal: Int
         discount: Int
         total: Int
+    }
+    
+    type Items {
+        item: Product
+        qty: Int
     }
 `
 

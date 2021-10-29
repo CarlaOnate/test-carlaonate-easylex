@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import {useQuery, gql, useMutation} from "@apollo/client";
+import {useEffect, useState} from "react";
 
 
 const MenuDiv = styled.div`
@@ -28,8 +29,9 @@ const ADDITEM = gql`
         addItem(type: $type, cartId: $cartId){
              id
             items {
-                type
-                name
+                item {
+                    type
+                }
                 qty
             }  
             subtotal
@@ -41,9 +43,32 @@ const ADDITEM = gql`
 
 
 function Menu({setChange, cart}){
-    console.log(cart)
     const {loading, error, data} = useQuery(GETPRODUCTS)
     const [addItem, addItemResponse] = useMutation(ADDITEM)
+
+    const [itemsState, setItems] = useState()
+
+    useEffect(() => {
+        if(addItemResponse.data){
+            setItems(addItemResponse.data.addItem.items)
+            console.log(addItemResponse.data.addItem.items)
+        }
+    }, [addItemResponse])
+
+    // data:
+    //     addItem:
+    //         discount: 0
+    // id: "617c839d5ce7c5c87671ee20"
+    // items: Array(1)
+    // 0:
+    // item: {type: 'Nda', __typename: 'Product'}
+    // qty: 1
+    // __typename: "Items"
+    //     [[Prototype]]: Object
+    // length: 1
+    //     [[Prototype]]: Array(0)
+    // subtotal: 0
+
 
     const onHandleDelete = () => {
         setChange(prev => !prev)
@@ -57,14 +82,19 @@ function Menu({setChange, cart}){
         setChange(prev => !prev)
     }
 
+    const findQty = (type) => {
+        const item = itemsState.find(el => type === el.item.type)
+        return item ? item.qty : 0
+    }
+
     return (
         <MenuDiv>
             {loading ? <p>Loading ...</p> : (
                 data.getProducts.map(({id, type, name}) => (
                     <Option key={id}>
                         <button id={type} onClick={onHandleDelete}>-</button>
-                        {name}
-                        <button id={type} onClick={onHandleAdd}>+</button>
+                        {itemsState && findQty(type)}
+                        <button id={type} onClick={onHandleAdd}>+</button> {name}
                     </Option>
                 ))
             )}
