@@ -2,9 +2,11 @@ const {Cart} = require("../models/Cart")
 
 const cart = {
 
-    Query: {},
+    Query: {
+
+    },
     Mutation: {
-        createCart:async () => {
+        createCart: async () => {
             await Cart.create({
                 items: [],
                 subtotal: 0,
@@ -12,7 +14,11 @@ const cart = {
                 total: 0,
             })
             return "Created Cart"
+        },
+        addItem: async () => {
+
         }
+
     }
 }
 

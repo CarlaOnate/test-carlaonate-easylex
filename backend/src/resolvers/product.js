@@ -12,6 +12,7 @@ const product = {
     },
 
     Mutation: {
+        //This was called once to fill the DB with the products
         fillProducts: async () => {
             await Product.create({
                 name: "Confidencialidad",
