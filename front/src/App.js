@@ -3,7 +3,7 @@ import { useMutation, gql } from "@apollo/client";
 import {useEffect} from "react";
 
 
-const CREATE_CART = gql`
+const ADD_ITEM = gql`
     mutation createCart{
         createCart
     }
@@ -12,7 +12,7 @@ const CREATE_CART = gql`
 
 function App() {
     //Hook to use mutation
-    const [createCart] = useMutation(CREATE_CART);
+    const [createCart] = useMutation(ADD_ITEM);
 
     return (
     <div>
