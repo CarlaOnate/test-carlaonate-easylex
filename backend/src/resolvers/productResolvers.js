@@ -1,6 +1,6 @@
 const Product = require("../models/Product")
 
-const product = {
+const productResolvers = {
 
     Query: {
         getProducts: async () => {
@@ -24,7 +24,7 @@ const product = {
             })
             await Product.create({
                 name: "Acuerdo de inversion",
-                price: 70.60,
+                price: 170.60,
                 type: "TermSheet"
             })
             await Product.create({
@@ -43,4 +43,4 @@ const product = {
 
 }
 
-module.exports = product
+module.exports = productResolvers

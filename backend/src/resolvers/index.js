@@ -1,5 +1,5 @@
-const cartResolvers = require('./cart')
-const productResolvers = require('./product')
+const cartResolvers = require('./cartResolvers')
+const productResolvers = require('./productResolvers')
 
 const resolvers = [
     cartResolvers,

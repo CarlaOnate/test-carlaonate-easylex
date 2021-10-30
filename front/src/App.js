@@ -4,6 +4,12 @@ import { useMutation, gql } from "@apollo/client";
 import styled from 'styled-components'
 import {useEffect, useState} from "react";
 
+const AppDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
+
 const CREATE_CART = gql`
     mutation createCart{
         createCart
@@ -37,7 +43,7 @@ if(!cart) return <p>Loading...</p>
     return (
     <div>
      <Menu setChange={setChange} cart={cart}/>
-     <Cart change={change}/>
+     <Cart change={change} cart={cart}/>
     </div>
   );
 }

@@ -1,14 +1,14 @@
 const Cart = require("../models/Cart")
 const Product = require("../models/Product")
 
-const cart = {
+const cartResolvers = {
 
     Query: {
         getCart: async (_, {cartId}) => {
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]}).then().catch();
             console.log(cart)
             return cart
-        }
+        },
     },
 
     Mutation: {
@@ -23,9 +23,6 @@ const cart = {
         },
 
         addItem: async (_, {type, cartId}) => {
-            //Buscar type existe ya en cart
-                //Si no existe agregar obj a lista
-                //Si existe solo sumarle 1
             console.log("Add", type, cartId)
             const product = await Product.findOne({type: type})
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
@@ -38,6 +35,7 @@ const cart = {
             }
             await cart.save()
             await cart.populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
+            await cartResolvers.Mutation.calculateDiscount(_,cartId)
 
             return "Added item"
         },
@@ -45,7 +43,6 @@ const cart = {
         deleteItem: async (_, {type, cartId}) => {
             console.log("Del", type, cartId)
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
-            console.log(cart.items)
 
             const itemIndex = cart.items.findIndex(el => el.item.type === type)
 
@@ -57,14 +54,44 @@ const cart = {
                     cart.items[itemIndex].qty -= 1
                 }
             }
-
             await cart.save()
 
             return "Deleted item"
         },
-        calculateDiscount: () => {}
+        calculatePrice: async (_, {cartId}) => {
+            console.log("calculateDis inside", cartId)
+            const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
+            // cart.discount = 0
+            console.log(cart)
+
+            if(cart.items.length > 0){
+                const ndaIndex = cart.items.find(el => el.item.type === "Nda")
+                const termSheetIndex = cart.items.find(el => el.item.type === "TermSheet")
+
+                if(ndaIndex){
+                //2 of Nda items menas price of one
+                    const {qty} = cart.items[ndaIndex]
+                    const {price} = cart.items[ndaIndex].item
+                    //
+                    qty % 2 === 0 ? cart.discount += (price*qty)/2 : cart.discount += ((qty-1)*price)/2
+                    console.log("Nda", cart.discount, qty)
+                }
+                if (termSheetIndex){
+                //3 or more Termsheet then price is 100 each
+                    const {qty} = cart.items[ndaIndex]
+                    const {price} = cart.items[ndaIndex].item
+                    if(qty > 2) cart.discount += (price-100)*qty
+                    console.log("TermSheet", cart.discount, qty)
+                }
+            }
+
+
+
+            return cart
+
+        }
 
     }
 }
 
-module.exports = cart
+module.exports = cartResolvers

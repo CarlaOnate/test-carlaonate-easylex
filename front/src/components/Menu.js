@@ -101,8 +101,6 @@ function Menu({setChange, cart}){
         }
     }, [updatedCart])
 
-    console.log(itemsState)
-
     const onHandleDelete = async ({target}) => {
         await delItem({
             variables: {type: target.id, cartId: cart}
@@ -121,7 +119,6 @@ function Menu({setChange, cart}){
         const item = itemsState.find(el => type === el.item.type)
         return item ? item.qty : 0
     }
-
 
 
     return (
