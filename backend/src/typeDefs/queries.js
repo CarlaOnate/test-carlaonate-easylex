@@ -7,6 +7,9 @@ const queries = gql`
         getProducts: [Product],
         getPrice(type: String): Int
         
+        #Cart
+        getCart(cartId: ID): Cart
+        
     }
 `
 

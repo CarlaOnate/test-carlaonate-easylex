@@ -22,21 +22,64 @@ const GETPRODUCTS = gql`
      }
     }
 `
-
+//
+// const ADDITEM = gql`
+//     mutation addItem($type: String, $cartId: ID){
+//         addItem(type: $type, cartId: $cartId){
+//             id
+//             items {
+//                 item {
+//                     type
+//                 }
+//                 qty
+//             }
+//             subtotal
+//             discount
+//             total
+//         }
+//     }
+// `
+//
+//
+//
+// const DELETEITEM = gql`
+//     mutation deleteItem($type: String, $cartId: ID){
+//         deleteItem(type: $type, cartId: $cartId){
+//             id
+//             items {
+//                 item {
+//                     type
+//                 }
+//                 qty
+//             }
+//             subtotal
+//             discount
+//             total
+//         }
+//     }
+// `
 
 const ADDITEM = gql`
     mutation addItem($type: String, $cartId: ID){
-        addItem(type: $type, cartId: $cartId){
-             id
+        addItem(type: $type, cartId: $cartId)
+    }
+`
+
+const DELETEITEM = gql`
+    mutation deleteItem($type: String, $cartId: ID){
+        deleteItem(type: $type, cartId: $cartId)
+    }
+`
+
+const GETCART = gql`
+    query getCart($cartId: ID){
+        getCart(cartId: $cartId){
             items {
                 item {
                     type
                 }
                 qty
-            }  
-            subtotal
-            discount
-            total
+            }
         }
     }
 `
@@ -44,40 +87,32 @@ const ADDITEM = gql`
 
 function Menu({setChange, cart}){
     const {loading, error, data} = useQuery(GETPRODUCTS)
-    const [addItem, addItemResponse] = useMutation(ADDITEM)
 
-    const [itemsState, setItems] = useState()
+    const updatedCart = useQuery(GETCART, {variables: {cartId: cart}})
+
+    const [addItem] = useMutation(ADDITEM, {refetchQueries: [GETCART, 'getCart']})
+    const [delItem] = useMutation(DELETEITEM, {refetchQueries: [GETCART, 'getCart']})
+
+    const [itemsState, setItems] = useState([])
 
     useEffect(() => {
-        if(addItemResponse.data){
-            setItems(addItemResponse.data.addItem.items)
-            console.log(addItemResponse.data.addItem.items)
+        if(updatedCart.data){
+            setItems(updatedCart.data.getCart.items)
         }
-    }, [addItemResponse])
+    }, [updatedCart])
 
-    // data:
-    //     addItem:
-    //         discount: 0
-    // id: "617c839d5ce7c5c87671ee20"
-    // items: Array(1)
-    // 0:
-    // item: {type: 'Nda', __typename: 'Product'}
-    // qty: 1
-    // __typename: "Items"
-    //     [[Prototype]]: Object
-    // length: 1
-    //     [[Prototype]]: Array(0)
-    // subtotal: 0
+    console.log(itemsState)
 
-
-    const onHandleDelete = () => {
+    const onHandleDelete = async ({target}) => {
+        await delItem({
+            variables: {type: target.id, cartId: cart}
+        })
         setChange(prev => !prev)
     }
 
     const onHandleAdd = async ({target}) => {
-        //So far so good
-        cart && await addItem({
-            variables: {type: target.id, cartId: cart.createCart}
+        await addItem({
+            variables: {type: target.id, cartId: cart}
         })
         setChange(prev => !prev)
     }
@@ -87,19 +122,20 @@ function Menu({setChange, cart}){
         return item ? item.qty : 0
     }
 
+
+
     return (
         <MenuDiv>
             {loading ? <p>Loading ...</p> : (
                 data.getProducts.map(({id, type, name}) => (
                     <Option key={id}>
                         <button id={type} onClick={onHandleDelete}>-</button>
-                        {itemsState && findQty(type)}
+                        {itemsState.length > 0 ? findQty(type) : 0}
                         <button id={type} onClick={onHandleAdd}>+</button> {name}
                     </Option>
                 ))
             )}
         </MenuDiv>
-
     )
 }
 
