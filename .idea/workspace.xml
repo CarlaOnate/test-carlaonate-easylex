@@ -35,6 +35,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -51,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1635440637497</updated>
-      <workItem from="1635440638782" duration="43709000" />
+      <workItem from="1635440638782" duration="45585000" />
     </task>
     <servers />
   </component>
@@ -67,13 +68,18 @@
       <screen x="1280" y="-431" width="2560" height="1415" />
     </state>
     <state x="1992" y="-93" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635447297237" />
+    <state x="513" y="306" key="SettingsEditor" timestamp="1635629916231">
+      <screen x="0" y="25" width="2560" height="1415" />
+    </state>
+    <state x="513" y="306" key="SettingsEditor/0.25.2560.1415@0.25.2560.1415" timestamp="1635629916231" />
     <state x="1900" y="82" key="run.anything.popup" timestamp="1635443592696">
       <screen x="1280" y="-431" width="2560" height="1415" />
     </state>
     <state x="1900" y="82" key="run.anything.popup/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635443592696" />
-    <state x="2421" y="-146" width="840" height="1034" key="search.everywhere.popup" timestamp="1635545897719">
-      <screen x="1280" y="-431" width="2560" height="1415" />
+    <state x="1141" y="310" width="840" height="1034" key="search.everywhere.popup" timestamp="1635629913545">
+      <screen x="0" y="25" width="2560" height="1415" />
     </state>
     <state x="2421" y="-146" width="840" height="1034" key="search.everywhere.popup/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635545897719" />
+    <state x="1141" y="310" width="840" height="1034" key="search.everywhere.popup/0.25.2560.1415@0.25.2560.1415" timestamp="1635629913545" />
   </component>
 </project>
