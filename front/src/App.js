@@ -5,21 +5,39 @@ import styled from 'styled-components'
 import {useEffect, useState} from "react";
 
 const AppDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    h1 {
+       margin: 20px 10px 0px 10px;
+       font-size: 15px; 
+       color: #302f2f;
+    }
+    p {
+        margin: 2px 10px 20px 10px;
+    }
+    &>div{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 2;
+    }
+    
     @media screen 
     and (min-device-width : 375px) 
     and (max-device-width : 667px){
       font-size: 15px;
     }
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-    align-items: space-around;  
-    h1 {
-       margin: 20px 10px 0px 10px;
-       font-size: 15px; 
-    }
-    p {
-        margin: 2px 10px 20px 10px;
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px){
+        h1 {
+            margin-top: 5vh; 
+            font-size: 25px;            
+        }
+        &>div {
+        flex-direction: row;
+        align-items: space-around;  
+        } 
     }
 `
 
@@ -58,8 +76,10 @@ if(!cart) return <p>Loading...</p>
     <AppDiv>
         <h1>Selecciona los contratos que necesitas:</h1>
         <p>Eliges todos los documentos que necesites y realiza tu pago. Contéstalos y descárgalos cuando los necesites.</p>
-     <Menu setChange={setChange} cartID={cart}/>
-     <Cart change={change} cartID={cart}/>
+        <div>
+             <Menu setChange={setChange} cartID={cart}/>
+             <Cart change={change} cartID={cart}/>
+        </div>
     </AppDiv>
   );
 }

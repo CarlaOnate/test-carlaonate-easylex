@@ -4,11 +4,6 @@ import {useEffect, useState} from "react";
 
 
 const MenuDiv = styled.div`
-    @media screen 
-    and (min-device-width : 375px) 
-    and (max-device-width : 667px){
-      font-size: 11px;
-    }
     display: flex;
     flex-grow: 1;
     margin: 5px;
@@ -17,7 +12,21 @@ const MenuDiv = styled.div`
     justify-content: center;
     align-items: center;
     box-shadow: 2px 8px 20px #f5f5f5;
-    border-radius: 10px;    
+    border-radius: 10px; 
+    
+    @media screen 
+    and (min-device-width : 375px) 
+    and (max-device-width : 667px){
+      font-size: 11px;
+    }
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px){
+        h1 {
+            margin-top: 5vh; 
+            font-size: 25px;            
+        } 
+    }  
 `
 
 const Option = styled.div`
@@ -29,11 +38,6 @@ const Option = styled.div`
     padding: 5px;
     text-align: center;
     button {
-        @media screen 
-        and (min-device-width : 375px) 
-        and (max-device-width : 667px){
-              font-size: 11px;
-        }
         border: none;
         background-color: white;
     }
@@ -63,6 +67,18 @@ const Option = styled.div`
             }  
             box-shadow: 2px 8px 10px #f5f5f5;
     `}
+    @media screen 
+    and (min-device-width : 375px) 
+    and (max-device-width : 667px){
+        button {
+          font-size: 11px;
+        }
+    }
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px){
+       
+    }
 `
 
 
