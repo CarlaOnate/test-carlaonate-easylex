@@ -54,6 +54,7 @@ const AppDiv = styled.div`
             font-size: 25px;            
         }
         &>div {
+            gap: 5%;
             margin: 5%;
             width: 80%;
             flex-direction: row;
