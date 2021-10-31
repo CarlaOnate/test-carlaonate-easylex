@@ -73,25 +73,20 @@ const cartResolvers = {
 
                 if(ndaIndex !== -1){
                 //2x1 in Nda items
-                    console.log(cart.items, cart.items[ndaIndex])
                     const {qty} = cart.items[ndaIndex]
                     const {price} = cart.items[ndaIndex].item
                     qty % 2 === 0 ? cart.discount += (price*qty)/2 : cart.discount += ((qty-1)*price)/2
-                    console.log("Nda", cart.discount, qty)
                 }
                 if (termSheetIndex !== -1){
                 //3 or more Termsheet then price is 100 each
-                    console.log(cart.items, cart.items[termSheetIndex])
                     const {qty} = cart.items[termSheetIndex]
                     const {price} = cart.items[termSheetIndex].item
                     if(qty > 2) cart.discount += (price-100)*qty
-                    console.log("TermSheet", cart.discount, qty)
                 }
 
-                const subtotal = cart.items.reduce((prev, current) => (prev.qty*prev.item.price)+(current.qty*current.item.price))
-                console.log("subtot", subtotal)
-                cart.total = cart.subtotal*1.16
 
+                cart.subtotal = cart.items.map(el => el.qty*el.item.price).reduce((prev, current) => prev + current).toFixed(2)
+                cart.total = (cart.subtotal*1.16).toFixed(2)
 
                 cart.save()
                 console.log(cart)

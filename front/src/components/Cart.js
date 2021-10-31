@@ -7,7 +7,9 @@ const CartDiv = styled.div`
 display: flex;
 flex-direction: column;
   div {
-     flex-direction: column;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `
 
@@ -63,13 +65,13 @@ function Cart({change, cartID}){
             <h4>Actualización de Precio</h4>
             {cart && (cart.items.map(el => (
                 <div>
-                    <p>{el.item.qty} {el.item.name} </p>
-                    <p>{el.price}</p>
+                    <p>{el.qty} {el.item.name} </p>
+                    <p>{el.item.price}</p>
                 </div>
             )))}
             <p>Subtotal {cart && cart.subtotal}</p>
             <p>Discount {cart && cart.discount}</p>
-            <p>IVA {cart && cart.subtotal*1.16}</p>
+            <p>IVA {cart && (cart.subtotal*0.16).toFixed(2)}</p>
             <p>Total{cart && cart.total}</p>
         </CartDiv>
 

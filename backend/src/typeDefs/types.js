@@ -4,7 +4,7 @@ const types = gql`
     type Product {
         id: ID!
         name: String
-        price: Int
+        price: Float
         type: String
         qty: Int
     } 
@@ -12,9 +12,9 @@ const types = gql`
     type Cart {
         id: ID!
         items: [Items]
-        subtotal: Int
-        discount: Int
-        total: Int
+        subtotal: Float
+        discount: Float
+        total: Float
     }
     
     type Items {
