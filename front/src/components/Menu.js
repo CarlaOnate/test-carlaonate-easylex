@@ -12,20 +12,19 @@ const MenuDiv = styled.div`
     justify-content: center;
     align-items: center;
     box-shadow: 2px 8px 20px #f5f5f5;
-    border-radius: 10px; 
+    border-radius: 15px; 
     
     @media screen 
     and (min-device-width : 375px) 
-    and (max-device-width : 667px){
+    and (max-device-width : 768px){
       font-size: 11px;
     }
     @media screen 
     and (min-device-width : 768px) 
-    and (max-device-width : 1024px){
-        h1 {
-            margin-top: 5vh; 
-            font-size: 25px;            
-        } 
+    and (max-device-width : 1281px){
+        height: 100%;
+        justify-content: flex-start;
+        flex-grow: 2;
     }  
 `
 

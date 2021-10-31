@@ -1,18 +1,21 @@
 import styled from 'styled-components'
 import {useEffect, useState} from 'react'
 import { useQuery, gql } from "@apollo/client";
+import {ReactComponent as Arrow} from '../arrow.svg'
 
 
 const CartDiv = styled.div`
     display: flex;
     margin: 5px;
+    padding-bottom: 30px;
     flex-grow: 2;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: space-around;
     background-color: #EEFFFC;
-    border-radius: 10px;
+    border-radius: 15px;
     h4 {
+        margin-top: 30px;
         width:85%;
         color: #1A2871;
     }
@@ -20,6 +23,44 @@ const CartDiv = styled.div`
         opacity: 50%;
         border: 1px solid #A6AAB8;
         width: 85%;
+    }
+    button {
+        height: 50px;
+        width: 150px;
+        border-radius: 10px 0px 0px 10px;
+        padding: 10px;
+        border: none;
+        background-color: #4EC9C5;
+        color: white;
+        align-self: flex-end;
+    }
+    button>div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        p {
+            margin: 0;
+        }
+        svg {
+            height: 22px;
+        }
+    }
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1281px){
+        flex-grow: 1;
+        height: 100%;
+        justify-content: center;
+        padding-bottom: 0;
+        button {
+            height: 60px;
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        h4 {
+            justify-self: flex-start;
+            font-size: 17px;
+        }
     }
 `
 
@@ -35,18 +76,31 @@ const CartItem = styled.div`
     p:last-child {
         font-weight: bold;
     }
-    
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1281px){
+        p {
+            font-size: 17px;
+        }
+    }
 `
 
-const Price = styled.div`
+const Price = styled.div`    
     display: flex;
-    width: 80%;
+    width: 85%;
     flex-direction: row;
     justify-content: space-between;
     p:last-child {
         font-weight: bold;
     }
-    ${props => props.discount && "color: #1A2871" }
+    ${props => props.discount && "color: #1A2871;"}
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1281px){
+        p {
+            font-size: 17px;
+        }
+    }
 `
 
 
@@ -111,6 +165,12 @@ function Cart({change, cartID}){
             <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
             <hr />
             <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
+            <button>
+                <div>
+                    <p>Continuar</p>
+                    <Arrow />
+                </div>
+            </button>
         </CartDiv>
 
     )

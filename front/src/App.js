@@ -9,7 +9,7 @@ const AppDiv = styled.div`
     flex-direction: column;
     height: 100vh;
     h1 {
-       margin: 20px 10px 0px 10px;
+       margin: 5% 10px 0px 10px;
        font-size: 15px; 
        color: #302f2f;
     }
@@ -24,7 +24,7 @@ const AppDiv = styled.div`
     
     @media screen 
     and (min-device-width : 375px) 
-    and (max-device-width : 667px){
+    and (max-device-width : 768px){
       font-size: 15px;
     }
     @media screen 
@@ -35,9 +35,34 @@ const AppDiv = styled.div`
             font-size: 25px;            
         }
         &>div {
-        flex-direction: row;
-        align-items: space-around;  
+            gap: 15px;
+            margin: 2%;
+            flex-direction: row;
+            align-items: flex-start;  
         } 
+        p {
+            font-size: .9rem;
+        }
+    }
+    @media screen 
+    and (min-device-width : 1024px) 
+    and (max-device-width : 1281px){
+        align-items: center;
+        h1 {
+            width: 80%;
+            margin-top: 5vh; 
+            font-size: 25px;            
+        }
+        &>div {
+            margin: 5%;
+            width: 80%;
+            flex-direction: row;
+            align-items: flex-start;  
+        } 
+        &>p {
+            width: 80%;
+            font-size: .9rem;
+        }
     }
 `
 
