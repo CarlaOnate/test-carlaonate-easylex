@@ -5,10 +5,15 @@ import styled from 'styled-components'
 import {useEffect, useState} from "react";
 
 const AppDiv = styled.div`
+    @media screen 
+    and (min-device-width : 375px) 
+    and (max-device-width : 667px){
+      font-size: 15px;
+    }
     display: flex;
-    height: 100v;
+    height: 100vh;
     flex-direction: column;
-    
+    align-items: space-around;  
 `
 
 

@@ -4,13 +4,23 @@ import { useQuery, gql } from "@apollo/client";
 
 
 const CartDiv = styled.div`
-display: flex;
-flex-direction: column;
-  div {
     display: flex;
+    margin: 10px;
+    flex-grow: 2;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #EEFFFC;
+    border-radius: 10px;
+
+`
+
+const CartItem = styled.div`
+    display: flex;
+    width: 80%;
     flex-direction: row;
     justify-content: space-between;
-  }
+    
 `
 
 
@@ -64,15 +74,15 @@ function Cart({change, cartID}){
         <CartDiv>
             <h4>Actualización de Precio</h4>
             {cart && (cart.items.map(el => (
-                <div>
-                    <p>{el.qty} {el.item.name} </p>
-                    <p>{el.item.price}</p>
-                </div>
+                <CartItem>
+                    <p>{el.qty}</p> <p>{el.item.name} </p>
+                    <p>${el.item.price} MXN</p>
+                </CartItem>
             )))}
-            <p>Subtotal {cart && cart.subtotal}</p>
-            <p>Discount {cart && cart.discount}</p>
-            <p>IVA {cart && (cart.subtotal*0.16).toFixed(2)}</p>
-            <p>Total{cart && cart.total}</p>
+            <CartItem><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></CartItem>
+            <CartItem><p>Discount</p> <p>${cart && cart.discount} MXN</p></CartItem>
+            <CartItem><p>IVA</p> <p>- ${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></CartItem>
+            <CartItem><p>Total</p> <p>${cart && cart.total} MXN</p></CartItem>
         </CartDiv>
 
     )
