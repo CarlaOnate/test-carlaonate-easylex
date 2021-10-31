@@ -1,6 +1,5 @@
 import styled, {css} from 'styled-components'
-import {useQuery, gql, useMutation} from "@apollo/client";
-import {useEffect, useState} from "react";
+import {useQuery, gql} from "@apollo/client";
 
 
 const MenuDiv = styled.div`
@@ -90,79 +89,83 @@ const GETPRODUCTS = gql`
          id
          name
          type
+         price
      }
     }
 `
 
-const ADDITEM = gql`
-    mutation addItem($type: String, $cartId: ID){
-        addItem(type: $type, cartId: $cartId)
-    }
-`
-
-const DELETEITEM = gql`
-    mutation deleteItem($type: String, $cartId: ID){
-        deleteItem(type: $type, cartId: $cartId)
-    }
-`
-
-const GETCART = gql`
-    query getCart($cartId: ID){
-        getCart(cartId: $cartId){
-            items {
-                item {
-                    type
-                }
-                qty
-            }
-        }
-    }
-`
-
-
-function Menu({setChange, cartID}){
+function Menu({cartState, setChange}){
     const {loading, error, data} = useQuery(GETPRODUCTS)
 
-    const updatedCart = useQuery(GETCART, {variables: {cartId: cartID}})
 
-    const [addItem] = useMutation(ADDITEM, {refetchQueries: [GETCART, 'getCart']})
-    const [delItem] = useMutation(DELETEITEM, {refetchQueries: [GETCART, 'getCart']})
+    const onHandleDelete = async ({target: {id}}) => {
 
-    const [itemsState, setItems] = useState([])
+        const itemIndex = cartState.cart.items.findIndex(el => el.item.type === id)
 
-    useEffect(() => {
-        if(updatedCart.data){
-            setItems(updatedCart.data.getCart.items)
+        if(itemIndex >= 0){
+            if(cartState.cart.items[itemIndex].qty === 1){
+                cartState.setCart(prev => {
+                    let itemsCopy = [...prev.items]
+                    itemsCopy.splice(itemIndex, 1)
+                    return {
+                        ...prev,
+                        items: itemsCopy
+                    }
+                })
+            } else {
+                cartState.setCart(prev => {
+                    let itemsCopy = [...prev.items]
+                    itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty - 1})
+                    return {
+                        ...prev,
+                        items: itemsCopy
+                    }
+                })
+            }
         }
-    }, [updatedCart])
-
-    const onHandleDelete = async ({target}) => {
-        await delItem({
-            variables: {type: target.id, cartId: cartID}
-        })
         setChange(prev => !prev)
     }
+    console.log("cart", cartState.cart.items)
 
-    const onHandleAdd = async ({target}) => {
-        await addItem({
-            variables: {type: target.id, cartId: cartID}
-        })
+    const onHandleAdd = async ({target: {id}}) => {
+        const itemIndex = cartState.cart.items.findIndex(el => el.item.type === id)
+        if(itemIndex >= 0){
+            cartState.setCart(prev => {
+                let itemsCopy = [...prev.items]
+                itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty + 1})
+                return {
+                    ...prev,
+                    items: itemsCopy
+                }
+            })
+        } else {
+            if(data){
+                const {id: itemId, name, price, type} = data.getProducts.find(el => el.type === id)
+                cartState.setCart(prev => ({
+                    ...prev,
+                    items: [
+                        ...prev.items,
+                        {item: {id: itemId, name, price, type}, qty: 1}
+                    ]
+                }))
+            }
+        }
         setChange(prev => !prev)
     }
 
     const findQty = (type) => {
-        const item = itemsState.find(el => type === el.item.type)
+        const item = cartState.cart.items.find(el => type === el.item.type)
         return item ? item.qty : 0
     }
 
 
     return (
         <MenuDiv>
-            {loading ? <p>Loading ...</p> : (
+            {loading ? <p>Loading ...</p> : data && (
                 data.getProducts.map(({id, type, name}) => (
-                    <Option key={id} selected={itemsState.length > 0 && findQty(type)}>
+                    <Option key={id} selected={cartState.cart.items.length > 0 && findQty(type)}>
                         <button id={type} onClick={onHandleDelete}>-</button>
-                        <p>{itemsState.length > 0 ? findQty(type) : 0}</p>
+                        <p>{cartState.cart.items.length > 0 ? findQty(type) : 0}</p>
                         <button id={type} onClick={onHandleAdd}>+</button>
                         <p>{name}</p>
                     </Option>

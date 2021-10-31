@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import {useEffect, useState} from 'react'
-import { useQuery, gql } from "@apollo/client";
+import {useEffect} from 'react'
+import {gql, useMutation} from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
 
 
@@ -121,9 +121,9 @@ const Container = styled.div`
 `
 
 
-const GETCART = gql`
-    query getCart($cartId: ID){
-        getCart(cartId: $cartId){
+const CALCULATEPRICE = gql`
+    mutation calculatePrice($cart: CartInput){
+        calculatePrice(cart: $cart){
             items {
                 item {
                     name
@@ -140,39 +140,27 @@ const GETCART = gql`
 `
 
 
-function Cart({change, cartID}){
-    console.log("cartID", cartID)
-    // const { loading, error, data, refetch } = useQuery(GETCART, {variables: {cart: cartID}})
-    const { loading, error, data, refetch } = useQuery(GETCART, {variables: {cartId: cartID}})
-
-
-    const [cart, setCart] = useState()
+function Cart({change, cartState: {cart, setCart}}){
+    const [calculatePrice, { data, loading, error }] = useMutation(CALCULATEPRICE);
 
     useEffect(() => {
-        //Refetch
-        const refetchCart = async () => {
-            await refetch()
-        }
-        refetchCart().then().catch()
-    }, [change, refetch])
+        // console.log(cart)
+        // const calPrice = async () => {
+        //     await calculatePrice({variables: {cart: cart}})
+        // }
+        // calPrice()
+        data && setCart(data.calculatePrice)
+    }, [change])
 
-    useEffect(() => {
-        data && setCart(data.getCart)
-    }, [data])
-
-
-
-    console.log("data", data)
-    console.log("cart", cart)
     if(loading) return <p>Loading...</p>
-    if(error) return <p>sth went wrong</p>
+    if(error) return <p>Sth went wrong</p>
 
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
             <Container display={cart.items.length > 0}>
             {cart && (cart.items.map(el => (
-                <CartItem>
+                <CartItem key={el.item.id}>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
                     <p>${el.item.price} MXN</p>
                 </CartItem>
@@ -180,7 +168,7 @@ function Cart({change, cartID}){
             </Container>
             <Container display={true}>
                 <hr />
-                <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
+                <Price><p>Subtotal</p> <p>${data && cart.subtotal} MXN</p></Price>
                 <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
                 <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
                 <hr />

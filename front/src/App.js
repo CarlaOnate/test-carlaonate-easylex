@@ -77,25 +77,14 @@ const CREATE_CART = gql`
 
 function App() {
     //Hook to use mutation
-    const [createCart, {data, loading, error}] = useMutation(CREATE_CART);
+    // const [createCart, {data, loading, error}] = useMutation(CREATE_CART);
     const [change, setChange] = useState(false);
-    const [cart, setCart] = useState()
-
-    useEffect(() => {
-        const newCart = async () => {
-            await createCart()
-        }
-        newCart()
-    }, [createCart])
-
-    useEffect(() => {
-        if(data){
-            setCart(data.createCart)
-        }
-    }, [data])
-
-
-if(!cart) return <p>Loading...</p>
+    const [cart, setCart] = useState({
+        items: [],
+        total: 0,
+        subtotal: 0,
+        discount: 0
+    })
 
 
     return (
@@ -103,8 +92,8 @@ if(!cart) return <p>Loading...</p>
         <h1>Selecciona los contratos que necesitas:</h1>
         <p>Eliges todos los documentos que necesites y realiza tu pago. Contéstalos y descárgalos cuando los necesites.</p>
         <div>
-             <Menu setChange={setChange} cartID={cart}/>
-             <Cart change={change} cartID={cart}/>
+             <Menu setChange={setChange} cartState={{cart, setCart}}/>
+             <Cart change={change} cartState={{cart, setCart}}/>
         </div>
     </AppDiv>
   );
