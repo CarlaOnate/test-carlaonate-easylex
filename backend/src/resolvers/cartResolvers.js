@@ -64,12 +64,10 @@ const cartResolvers = {
             console.log("calculateDis inside", cartId)
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
             cart.discount = 0
-            console.log(cart)
             //Calculate discounts
             if(cart.items.length > 0){
                 const ndaIndex = cart.items.findIndex(el => el.item.type === "Nda")
                 const termSheetIndex = cart.items.findIndex(el => el.item.type === "TermSheet")
-                console.log("Indexes", ndaIndex, termSheetIndex)
 
                 if(ndaIndex !== -1){
                 //2x1 in Nda items
@@ -84,13 +82,9 @@ const cartResolvers = {
                     if(qty > 2) cart.discount += (price-100)*qty
                 }
 
-
                 cart.subtotal = cart.items.map(el => el.qty*el.item.price).reduce((prev, current) => prev + current).toFixed(2)
                 cart.total = (cart.subtotal*1.16).toFixed(2)
-
                 cart.save()
-                console.log(cart)
-
             }
 
             return "Price updated in cart"

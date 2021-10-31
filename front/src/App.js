@@ -6,8 +6,9 @@ import {useEffect, useState} from "react";
 
 const AppDiv = styled.div`
     display: flex;
-    flex-direction: column;
     height: 100v;
+    flex-direction: column;
+    
 `
 
 

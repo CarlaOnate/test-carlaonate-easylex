@@ -5,13 +5,26 @@ import {useEffect, useState} from "react";
 
 const MenuDiv = styled.div`
     display: flex;
+    gap: 20px;
+    width: 100%;
     flex-direction: column;
+    align-items: center;
 `
 
 const Option = styled.div`
+    width: 80%;
     flex-direction: row;
-    justify-content: space-between;  
+    justify-content: space-around;  
+    padding: 5px;
+    button {
+        border: none;
+        background-color: white;
+    }
+    border: 1px solid #DBDBDA;
+    border-radius: 10px;    
 `
+
+
 
 const GETPRODUCTS = gql`
     query getProducts{
@@ -22,42 +35,6 @@ const GETPRODUCTS = gql`
      }
     }
 `
-//
-// const ADDITEM = gql`
-//     mutation addItem($type: String, $cartId: ID){
-//         addItem(type: $type, cartId: $cartId){
-//             id
-//             items {
-//                 item {
-//                     type
-//                 }
-//                 qty
-//             }
-//             subtotal
-//             discount
-//             total
-//         }
-//     }
-// `
-//
-//
-//
-// const DELETEITEM = gql`
-//     mutation deleteItem($type: String, $cartId: ID){
-//         deleteItem(type: $type, cartId: $cartId){
-//             id
-//             items {
-//                 item {
-//                     type
-//                 }
-//                 qty
-//             }
-//             subtotal
-//             discount
-//             total
-//         }
-//     }
-// `
 
 const ADDITEM = gql`
     mutation addItem($type: String, $cartId: ID){
