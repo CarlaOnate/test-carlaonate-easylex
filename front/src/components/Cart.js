@@ -12,6 +12,10 @@ const CartDiv = styled.div`
     align-items: center;
     background-color: #EEFFFC;
     border-radius: 10px;
+    h4 {
+        width:85%;
+        color: #1A2871;
+    }
     hr {
         opacity: 50%;
         border: 1px solid #A6AAB8;
@@ -28,6 +32,9 @@ const CartItem = styled.div`
         flex-grow: 2;
         margin-left: 4px;
     }
+    p:last-child {
+        font-weight: bold;
+    }
     
 `
 
@@ -36,7 +43,10 @@ const Price = styled.div`
     width: 80%;
     flex-direction: row;
     justify-content: space-between;
-    
+    p:last-child {
+        font-weight: bold;
+    }
+    ${props => props.discount && "color: #1A2871" }
 `
 
 
@@ -97,8 +107,8 @@ function Cart({change, cartID}){
             )))}
             <hr />
             <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
-            <Price><p>Discount</p> <p>${cart && cart.discount} MXN</p></Price>
-            <Price><p>IVA</p> <p>- ${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
+            <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
+            <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
             <hr />
             <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
         </CartDiv>
