@@ -19,11 +19,6 @@ const CartDiv = styled.div`
         width:85%;
         color: #1A2871;
     }
-    hr {
-        opacity: 50%;
-        border: 1px solid #A6AAB8;
-        width: 85%;
-    }
     button {
         height: 50px;
         width: 150px;
@@ -66,7 +61,7 @@ const CartDiv = styled.div`
 
 const CartItem = styled.div`
     display: flex;
-    width: 85%;
+    width: 100%;
     flex-direction: row;
     justify-content: space-between;
     p:nth-child(2){
@@ -87,9 +82,13 @@ const CartItem = styled.div`
 
 const Price = styled.div`    
     display: flex;
-    width: 85%;
+    width: 100%;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    p {
+        margin: 10px 0px 10px 0px;
+    }
     p:last-child {
         font-weight: bold;
     }
@@ -100,6 +99,15 @@ const Price = styled.div`
         p {
             font-size: 17px;
         }
+    }
+`
+
+const Container = styled.div`
+    width: 85%;
+    hr {
+        opacity: 50%;
+        border: 1px solid #A6AAB8;
+        width: 100%;
     }
 `
 
@@ -153,18 +161,22 @@ function Cart({change, cartID}){
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
+            <Container>
             {cart && (cart.items.map(el => (
                 <CartItem>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
                     <p>${el.item.price} MXN</p>
                 </CartItem>
             )))}
-            <hr />
-            <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
-            <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
-            <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
-            <hr />
-            <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
+            </Container>
+            <Container>
+                <hr />
+                <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
+                <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
+                <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
+                <hr />
+                <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
+            </Container>
             <button>
                 <div>
                     <p>Continuar</p>
