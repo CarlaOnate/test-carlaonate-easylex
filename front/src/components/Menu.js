@@ -53,11 +53,15 @@ const Option = styled.div`
     border: 1px solid #DBDBDA;
     border-radius: 10px;    
     ${props => props.selected > 0 && css`
-            border: 1px solid #4EC9C5;
+            border: none;
             color: #4EC9C5;
             button {
                 color: #4EC9C5;
             }
+            p:nth-child(2) {
+                 border: 1px solid #4EC9C5;
+            }  
+            box-shadow: 2px 8px 10px #f5f5f5;
     `}
 `
 
