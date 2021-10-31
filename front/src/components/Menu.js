@@ -85,10 +85,10 @@ const GETCART = gql`
 `
 
 
-function Menu({setChange, cart}){
+function Menu({setChange, cartID}){
     const {loading, error, data} = useQuery(GETPRODUCTS)
 
-    const updatedCart = useQuery(GETCART, {variables: {cartId: cart}})
+    const updatedCart = useQuery(GETCART, {variables: {cartId: cartID}})
 
     const [addItem] = useMutation(ADDITEM, {refetchQueries: [GETCART, 'getCart']})
     const [delItem] = useMutation(DELETEITEM, {refetchQueries: [GETCART, 'getCart']})
@@ -103,14 +103,14 @@ function Menu({setChange, cart}){
 
     const onHandleDelete = async ({target}) => {
         await delItem({
-            variables: {type: target.id, cartId: cart}
+            variables: {type: target.id, cartId: cartID}
         })
         setChange(prev => !prev)
     }
 
     const onHandleAdd = async ({target}) => {
         await addItem({
-            variables: {type: target.id, cartId: cart}
+            variables: {type: target.id, cartId: cartID}
         })
         setChange(prev => !prev)
     }

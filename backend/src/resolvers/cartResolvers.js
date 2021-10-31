@@ -6,7 +6,6 @@ const cartResolvers = {
     Query: {
         getCart: async (_, {cartId}) => {
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]}).then().catch();
-            console.log(cart)
             return cart
         },
     },
@@ -73,7 +72,7 @@ const cartResolvers = {
                 console.log("Indexes", ndaIndex, termSheetIndex)
 
                 if(ndaIndex !== -1){
-                //2 of Nda items menas price of one
+                //2x1 in Nda items
                     console.log(cart.items, cart.items[ndaIndex])
                     const {qty} = cart.items[ndaIndex]
                     const {price} = cart.items[ndaIndex].item
@@ -89,7 +88,8 @@ const cartResolvers = {
                     console.log("TermSheet", cart.discount, qty)
                 }
 
-                cart.subtotal = cart.items.reduce((prev, current) => (prev.qty*prev.item.price)+(current.qty*current.item.price))
+                const subtotal = cart.items.reduce((prev, current) => (prev.qty*prev.item.price)+(current.qty*current.item.price))
+                console.log("subtot", subtotal)
                 cart.total = cart.subtotal*1.16
 
 
@@ -98,7 +98,7 @@ const cartResolvers = {
 
             }
 
-            return cart
+            return "Price updated in cart"
 
         }
 

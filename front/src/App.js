@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 const AppDiv = styled.div`
     display: flex;
     flex-direction: column;
+    height: 100v;
 `
 
 
@@ -28,7 +29,7 @@ function App() {
             await createCart()
         }
         newCart()
-    }, [])
+    }, [createCart])
 
     useEffect(() => {
         if(data){
@@ -41,10 +42,10 @@ if(!cart) return <p>Loading...</p>
 
 
     return (
-    <div>
-     <Menu setChange={setChange} cart={cart}/>
-     <Cart change={change} cart={cart}/>
-    </div>
+    <AppDiv>
+     <Menu setChange={setChange} cartID={cart}/>
+     <Cart change={change} cartID={cart}/>
+    </AppDiv>
   );
 }
 
