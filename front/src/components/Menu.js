@@ -22,7 +22,7 @@ const MenuDiv = styled.div`
 
 const Option = styled.div`
     display: flex;
-    width: 80%;
+    width: 85%;
     max-height: 25px;
     flex-direction: row;
     align-items: center;

@@ -12,10 +12,26 @@ const CartDiv = styled.div`
     align-items: center;
     background-color: #EEFFFC;
     border-radius: 10px;
-
+    hr {
+        opacity: 50%;
+        border: 1px solid #A6AAB8;
+        width: 85%;
+    }
 `
 
 const CartItem = styled.div`
+    display: flex;
+    width: 85%;
+    flex-direction: row;
+    justify-content: space-between;
+    p:nth-child(2){
+        flex-grow: 2;
+        margin-left: 4px;
+    }
+    
+`
+
+const Price = styled.div`
     display: flex;
     width: 80%;
     flex-direction: row;
@@ -79,10 +95,12 @@ function Cart({change, cartID}){
                     <p>${el.item.price} MXN</p>
                 </CartItem>
             )))}
-            <CartItem><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></CartItem>
-            <CartItem><p>Discount</p> <p>${cart && cart.discount} MXN</p></CartItem>
-            <CartItem><p>IVA</p> <p>- ${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></CartItem>
-            <CartItem><p>Total</p> <p>${cart && cart.total} MXN</p></CartItem>
+            <hr />
+            <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
+            <Price><p>Discount</p> <p>${cart && cart.discount} MXN</p></Price>
+            <Price><p>IVA</p> <p>- ${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
+            <hr />
+            <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
         </CartDiv>
 
     )
