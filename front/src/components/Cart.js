@@ -43,7 +43,7 @@ const CartDiv = styled.div`
     }
     @media screen 
     and (min-device-width : 768px) 
-    and (max-device-width : 1281px){
+    and (max-device-width : 1500px){
         height: 100%;
         flex-grow: 1;
         height: 100%;
@@ -170,7 +170,7 @@ function Cart({change, cartID}){
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
-            <Container display={cart.items.length > 0}>
+            <Container display={cart && cart.items.length > 0}>
             {cart && (cart.items.map(el => (
                 <CartItem>
                     <p>{el.qty}</p> <p>{el.item.name} </p>

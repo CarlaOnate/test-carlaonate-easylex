@@ -46,7 +46,7 @@ const AppDiv = styled.div`
     }
     @media screen 
     and (min-device-width : 1024px) 
-    and (max-device-width : 1281px){
+    and (max-device-width : 1500px){
         align-items: center;
         h1 {
             width: 80%;

@@ -73,11 +73,6 @@ const Option = styled.div`
           font-size: 11px;
         }
     }
-    @media screen 
-    and (min-device-width : 768px) 
-    and (max-device-width : 1024px){
-       
-    }
 `
 
 
