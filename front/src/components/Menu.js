@@ -6,20 +6,28 @@ import {useEffect, useState} from "react";
 const MenuDiv = styled.div`
     display: flex;
     gap: 20px;
-    width: 100%;
     flex-direction: column;
     align-items: center;
 `
 
 const Option = styled.div`
+    display: flex;
     width: 80%;
+    max-height: 25px;
     flex-direction: row;
-    justify-content: space-around;  
     padding: 5px;
     button {
         border: none;
         background-color: white;
     }
+    p {
+        margin: 0px 2px 0px 2px;
+    }
+    p:last-child{
+        margin-left: 15px;
+    }
+    
+    
     border: 1px solid #DBDBDA;
     border-radius: 10px;    
 `
@@ -104,8 +112,9 @@ function Menu({setChange, cartID}){
                 data.getProducts.map(({id, type, name}) => (
                     <Option key={id}>
                         <button id={type} onClick={onHandleDelete}>-</button>
-                        {itemsState.length > 0 ? findQty(type) : 0}
-                        <button id={type} onClick={onHandleAdd}>+</button> {name}
+                        <p>{itemsState.length > 0 ? findQty(type) : 0}</p>
+                        <button id={type} onClick={onHandleAdd}>+</button>
+                        <p>{name}</p>
                     </Option>
                 ))
             )}
