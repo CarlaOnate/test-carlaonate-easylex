@@ -8,6 +8,7 @@ const AppDiv = styled.div`
     display: flex;
     flex-direction: column;
     height: 100vh;
+    gap: 10px;
     h1 {
        margin: 5% 10px 0px 10px;
        font-size: 15px; 
@@ -21,7 +22,6 @@ const AppDiv = styled.div`
         flex-direction: column;
         flex-grow: 2;
     }
-    
     @media screen 
     and (min-device-width : 375px) 
     and (max-device-width : 768px){

@@ -24,6 +24,7 @@ const CartDiv = styled.div`
         width: 150px;
         border-radius: 10px 0px 0px 10px;
         padding: 10px;
+        margin-top: 20px;
         border: none;
         background-color: #4EC9C5;
         color: white;
@@ -43,17 +44,17 @@ const CartDiv = styled.div`
     @media screen 
     and (min-device-width : 768px) 
     and (max-device-width : 1281px){
+        height: 100%;
         flex-grow: 1;
         height: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         padding-bottom: 0;
         button {
             height: 60px;
             width: 150px;
-            margin-bottom: 20px;
+            margin: 40px 0px 20px 0px;
         }
         h4 {
-            justify-self: flex-start;
             font-size: 17px;
         }
     }
@@ -64,6 +65,9 @@ const CartItem = styled.div`
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
+    p {
+        margin: 10px 0px 10px 0px;
+    }
     p:nth-child(2){
         flex-grow: 2;
         margin-left: 4px;
@@ -108,6 +112,11 @@ const Container = styled.div`
         opacity: 50%;
         border: 1px solid #A6AAB8;
         width: 100%;
+    }
+    @media screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1281px){
+        ${props => !props.display && "display: none"}
     }
 `
 
@@ -161,7 +170,7 @@ function Cart({change, cartID}){
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
-            <Container>
+            <Container display={cart.items.length > 0}>
             {cart && (cart.items.map(el => (
                 <CartItem>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
@@ -169,7 +178,7 @@ function Cart({change, cartID}){
                 </CartItem>
             )))}
             </Container>
-            <Container>
+            <Container display={true}>
                 <hr />
                 <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
                 <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
