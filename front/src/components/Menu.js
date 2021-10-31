@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 import {useQuery, gql, useMutation} from "@apollo/client";
 import {useEffect, useState} from "react";
 
@@ -11,12 +11,12 @@ const MenuDiv = styled.div`
     }
     display: flex;
     flex-grow: 1;
-    margin: 10px;
+    margin: 5px;
     gap: 20px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: 2px 10px 20px #DBDBDA;
+    box-shadow: 2px 8px 20px #f5f5f5;
     border-radius: 10px;    
 `
 
@@ -37,6 +37,9 @@ const Option = styled.div`
         border: none;
         background-color: white;
     }
+    button:first-child{
+        padding-bottom: 4px;
+    }
     p:nth-child(2) {
         margin: 0px 2px 0px 2px;
         padding: 1px 3px 2px 3px;
@@ -49,6 +52,13 @@ const Option = styled.div`
     }
     border: 1px solid #DBDBDA;
     border-radius: 10px;    
+    ${props => props.selected > 0 && css`
+            border: 1px solid #4EC9C5;
+            color: #4EC9C5;
+            button {
+                color: #4EC9C5;
+            }
+    `}
 `
 
 
@@ -131,7 +141,7 @@ function Menu({setChange, cartID}){
         <MenuDiv>
             {loading ? <p>Loading ...</p> : (
                 data.getProducts.map(({id, type, name}) => (
-                    <Option key={id}>
+                    <Option key={id} selected={itemsState.length > 0 && findQty(type)}>
                         <button id={type} onClick={onHandleDelete}>-</button>
                         <p>{itemsState.length > 0 ? findQty(type) : 0}</p>
                         <button id={type} onClick={onHandleAdd}>+</button>

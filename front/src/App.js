@@ -14,6 +14,13 @@ const AppDiv = styled.div`
     height: 100vh;
     flex-direction: column;
     align-items: space-around;  
+    h1 {
+       margin: 20px 10px 0px 10px;
+       font-size: 15px; 
+    }
+    p {
+        margin: 2px 10px 20px 10px;
+    }
 `
 
 
@@ -49,6 +56,8 @@ if(!cart) return <p>Loading...</p>
 
     return (
     <AppDiv>
+        <h1>Selecciona los contratos que necesitas:</h1>
+        <p>Eliges todos los documentos que necesites y realiza tu pago. Contéstalos y descárgalos cuando los necesites.</p>
      <Menu setChange={setChange} cartID={cart}/>
      <Cart change={change} cartID={cart}/>
     </AppDiv>

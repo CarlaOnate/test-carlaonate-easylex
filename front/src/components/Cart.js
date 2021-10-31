@@ -5,7 +5,7 @@ import { useQuery, gql } from "@apollo/client";
 
 const CartDiv = styled.div`
     display: flex;
-    margin: 10px;
+    margin: 5px;
     flex-grow: 2;
     flex-direction: column;
     justify-content: center;
