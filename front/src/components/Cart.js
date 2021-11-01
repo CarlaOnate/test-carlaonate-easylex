@@ -154,7 +154,6 @@ function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCart
 
 
     useEffect(() => {
-        data && console.log(data, data.calculatePrice)
         data && setCart(prev => ({
             ...prev,
             subtotal: data.calculatePrice.subtotal,
@@ -162,7 +161,6 @@ function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCart
             total: data.calculatePrice.total
         }))
         if(saveCartRes.data){
-            console.log(saveCartRes.data.saveCart)
             const {items, total, subtotal, discount} = saveCartRes.data.saveCart
             setCart({
                 items: items.map(el => ({
