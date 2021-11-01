@@ -77,9 +77,10 @@ const CREATE_CART = gql`
 
 function App() {
     //Hook to use mutation
-    const [createCart, {data, loading, error}] = useMutation(CREATE_CART);
+    const [createCart, {data}] = useMutation(CREATE_CART);
     const [change, setChange] = useState(false);
     const [cart, setCart] = useState()
+    const [continueClicked, setContinueClicked] = useState(false)
 
     useEffect(() => {
         const newCart = async () => {
@@ -97,6 +98,15 @@ function App() {
 
 if(!cart) return <p>Loading...</p>
 
+if(continueClicked){
+    return (
+        <>
+            <h1>Tu selección fue la siguiente:</h1>
+            <Cart change={change} cartID={cart}/>
+        </>
+    )
+}
+
 
     return (
     <AppDiv>
@@ -104,7 +114,7 @@ if(!cart) return <p>Loading...</p>
         <p>Eliges todos los documentos que necesites y realiza tu pago. Contéstalos y descárgalos cuando los necesites.</p>
         <div>
              <Menu setChange={setChange} cartID={cart}/>
-             <Cart change={change} cartID={cart}/>
+             <Cart change={change} cartID={cart} setClicked={setContinueClicked}/>
         </div>
     </AppDiv>
   );

@@ -116,7 +116,7 @@ const GETCART = gql`
 
 
 function Menu({setChange, cartID}){
-    const {loading, error, data} = useQuery(GETPRODUCTS)
+    const {loading, data} = useQuery(GETPRODUCTS)
 
     const updatedCart = useQuery(GETCART, {variables: {cartId: cartID}})
 

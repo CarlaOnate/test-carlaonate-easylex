@@ -22,7 +22,6 @@ const cartResolvers = {
         },
 
         addItem: async (_, {type, cartId}) => {
-            console.log("Add", type, cartId)
             const product = await Product.findOne({type: type})
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
 
@@ -42,7 +41,6 @@ const cartResolvers = {
         },
 
         deleteItem: async (_, {type, cartId}) => {
-            console.log("Del", type, cartId)
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
 
             const itemIndex = cart.items.findIndex(el => el.item.type === type)
@@ -61,7 +59,6 @@ const cartResolvers = {
             return "Deleted item"
         },
         calculatePrice: async (cartId) => {
-            console.log("calculateDis inside", cartId)
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]})
             cart.discount = 0
             //Calculate discounts

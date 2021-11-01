@@ -140,9 +140,7 @@ const GETCART = gql`
 `
 
 
-function Cart({change, cartID}){
-    console.log("cartID", cartID)
-    // const { loading, error, data, refetch } = useQuery(GETCART, {variables: {cart: cartID}})
+function Cart({change, cartID, setClicked}){
     const { loading, error, data, refetch } = useQuery(GETCART, {variables: {cartId: cartID}})
 
 
@@ -161,9 +159,10 @@ function Cart({change, cartID}){
     }, [data])
 
 
+    const handleOnClick = () => {
+        setClicked(true)
+    }
 
-    console.log("data", data)
-    console.log("cart", cart)
     if(loading) return <p>Loading...</p>
     if(error) return <p>sth went wrong</p>
 
@@ -186,7 +185,7 @@ function Cart({change, cartID}){
                 <hr />
                 <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
             </Container>
-            <button>
+            <button onClick={handleOnClick}>
                 <div>
                     <p>Continuar</p>
                     <Arrow />
