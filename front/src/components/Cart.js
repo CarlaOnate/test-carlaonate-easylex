@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {gql, useMutation} from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
 
@@ -116,7 +116,7 @@ const Container = styled.div`
     @media screen 
     and (min-device-width : 768px) 
     and (max-device-width : 1281px){
-        ${props => !props.display && "display: none"}
+        ${props => !props.show && "display: none"}
     }
 `
 
@@ -124,17 +124,18 @@ const Container = styled.div`
 const CALCULATEPRICE = gql`
     mutation calculatePrice($cart: CartInput){
         calculatePrice(cart: $cart){
+            discount
+            total
+            subtotal
             items {
                 item {
-                    name
+                    id
                     type
                     price
+                    name
                 }
                 qty
             }
-            subtotal
-            discount
-            total
         }
     }
 `
@@ -144,35 +145,42 @@ function Cart({change, cartState: {cart, setCart}}){
     const [calculatePrice, { data, loading, error }] = useMutation(CALCULATEPRICE);
 
     useEffect(() => {
-        // console.log(cart)
-        // const calPrice = async () => {
-        //     await calculatePrice({variables: {cart: cart}})
-        // }
-        // calPrice()
-        data && setCart(data.calculatePrice)
-    }, [change])
+        const calPrice = async () => {
+            await calculatePrice({variables: {cart: cart}})
+        }
+        calPrice()
+    }, [change, calculatePrice])
 
-    if(loading) return <p>Loading...</p>
-    if(error) return <p>Sth went wrong</p>
+    useEffect(() => {
+        data && console.log(data, data.calculatePrice)
+        data && setCart(prev => ({
+            ...prev,
+            subtotal: data.calculatePrice.subtotal,
+            discount: data.calculatePrice.discount,
+            total: data.calculatePrice.total
+        }))  //Todo: aqui hay un pedo!
+    }, [data])
+
+    console.log("cart", cart)
 
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
-            <Container display={cart.items.length > 0}>
-            {cart && (cart.items.map(el => (
+            <Container show={cart.items.length > 0}>
+            {(cart.items.map(el => (
                 <CartItem key={el.item.id}>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
                     <p>${el.item.price} MXN</p>
                 </CartItem>
             )))}
             </Container>
-            <Container display={true}>
+            <Container show={true}>
                 <hr />
-                <Price><p>Subtotal</p> <p>${data && cart.subtotal} MXN</p></Price>
-                <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
-                <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
+                <Price><p>Subtotal</p> <p>${data && data.calculatePrice.subtotal} MXN</p></Price>
+                <Price discount={true}><p>Discount</p> <p>- ${data && data.calculatePrice.discount} MXN</p></Price>
+                <Price><p>IVA</p> <p>${data && (data.calculatePrice.subtotal*0.16).toFixed(2)} MXN</p></Price>
                 <hr />
-                <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
+                <Price><p>Total</p> <p>${data && data.calculatePrice.total} MXN</p></Price>
             </Container>
             <button>
                 <div>

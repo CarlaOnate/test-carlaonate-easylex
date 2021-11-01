@@ -20,7 +20,6 @@ const cartResolvers = {
             return cart.id
         },
         calculatePrice: async (_, {cart}) => {
-            try {
                 console.log("cart", cart)
                 cart.discount = 0
                 //Calculate discounts
@@ -51,10 +50,6 @@ const cartResolvers = {
                 console.log("final cart", cart)
 
                 return cart
-
-            } catch {
-                throw new Error("Algo salió mal")
-            }
 
         }
 

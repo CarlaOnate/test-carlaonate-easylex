@@ -125,7 +125,6 @@ function Menu({cartState, setChange}){
         }
         setChange(prev => !prev)
     }
-    console.log("cart", cartState.cart.items)
 
     const onHandleAdd = async ({target: {id}}) => {
         const itemIndex = cartState.cart.items.findIndex(el => el.item.type === id)
@@ -158,6 +157,7 @@ function Menu({cartState, setChange}){
         return item ? item.qty : 0
     }
 
+    console.log(cartState.cart)
 
     return (
         <MenuDiv>
