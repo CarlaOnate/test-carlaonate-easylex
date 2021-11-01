@@ -167,7 +167,6 @@ function Cart({change, cartID, setClicked}){
     if(loading) return <p>Loading...</p>
     if(error) return <p>sth went wrong</p>
 
-    console.log(cart)
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
