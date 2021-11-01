@@ -5,8 +5,8 @@ const mutations = gql`
         #Product
         fillProducts: String #Used once to add items to DB
         
-        #Cart 
-        createCart: ID!
+        #Cart
+        saveCart(cart: CartInput): Cart
         calculatePrice(cart: CartInput): Cart
     }
 `

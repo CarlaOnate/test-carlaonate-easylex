@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useMemo} from 'react'
 import {gql, useMutation} from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
 
@@ -141,8 +141,9 @@ const CALCULATEPRICE = gql`
 `
 
 
-function Cart({change, cartState: {cart, setCart}}){
-    const [calculatePrice, { data, loading, error }] = useMutation(CALCULATEPRICE);
+
+function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCartRes}}){
+    const [calculatePrice, { data }] = useMutation(CALCULATEPRICE);
 
     useEffect(() => {
         const calPrice = async () => {
@@ -151,6 +152,7 @@ function Cart({change, cartState: {cart, setCart}}){
         calPrice()
     }, [change, calculatePrice])
 
+
     useEffect(() => {
         data && console.log(data, data.calculatePrice)
         data && setCart(prev => ({
@@ -158,10 +160,33 @@ function Cart({change, cartState: {cart, setCart}}){
             subtotal: data.calculatePrice.subtotal,
             discount: data.calculatePrice.discount,
             total: data.calculatePrice.total
-        }))  //Todo: aqui hay un pedo!
-    }, [data])
+        }))
+        if(saveCartRes.data){
+            console.log(saveCartRes.data.saveCart)
+            const {items, total, subtotal, discount} = saveCartRes.data.saveCart
+            setCart({
+                items: items.map(el => ({
+                    qty: el.qty,
+                    item: {
+                        id: el.item.id,
+                        name: el.item.name,
+                        price: el.item.price,
+                        type: el.item.type
+                    }
+                })),
+                total,
+                subtotal,
+                discount
+            })
+            //This console is here to see the obj returned from the backend that was stored in the DB.
+            console.log("Cart saved in DB", cart)
+        }
+    }, [data, saveCartRes.data, setCart])
 
-    console.log("cart", cart)
+    const handleButtonClick = async () => {
+        await saveCart({variables: {cart: cart}})
+    }
+
 
     return (
         <CartDiv>
@@ -182,14 +207,13 @@ function Cart({change, cartState: {cart, setCart}}){
                 <hr />
                 <Price><p>Total</p> <p>${data && data.calculatePrice.total} MXN</p></Price>
             </Container>
-            <button>
+            <button onClick={handleButtonClick}>
                 <div>
                     <p>Continuar</p>
                     <Arrow />
                 </div>
             </button>
         </CartDiv>
-
     )
 }
 

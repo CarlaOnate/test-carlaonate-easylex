@@ -9,6 +9,7 @@ const types = gql`
     }
     
     type Cart {
+        id: ID!
         items: [Items]
         subtotal: Float
         discount: Float
@@ -21,6 +22,7 @@ const types = gql`
     }
     
     input CartInput {
+        id: ID
         items: [ItemInput]
         subtotal: Float
         discount: Float

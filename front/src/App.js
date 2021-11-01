@@ -2,7 +2,7 @@ import Menu from "./components/Menu"
 import Cart from "./components/Cart"
 import { useMutation, gql } from "@apollo/client";
 import styled from 'styled-components'
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 const AppDiv = styled.div`
     display: flex;
@@ -68,24 +68,41 @@ const AppDiv = styled.div`
 `
 
 
-const CREATE_CART = gql`
-    mutation createCart{
-        createCart
+const SAVECART = gql`
+    mutation saveCart($cart: CartInput){
+        saveCart(cart: $cart){
+            id
+            total
+            subtotal
+            discount
+            items {
+                item {
+                    id
+                    name
+                    price
+                    type
+                }
+                qty
+            }
+        }
     }
 `
 
-
 function App() {
-    //Hook to use mutation
-    // const [createCart, {data, loading, error}] = useMutation(CREATE_CART);
+    const [saveCart, saveCartRes] = useMutation(SAVECART);
+
     const [change, setChange] = useState(false);
     const [cart, setCart] = useState({
+        id: "",
         items: [],
         total: 0,
         subtotal: 0,
         discount: 0
     })
 
+    if(saveCartRes.data){
+        return <Cart change={change} cartState={{cart, setCart}} saveCart={{saveCart, saveCartRes}}/>
+    }
 
     return (
     <AppDiv>
@@ -93,7 +110,7 @@ function App() {
         <p>Eliges todos los documentos que necesites y realiza tu pago. Contéstalos y descárgalos cuando los necesites.</p>
         <div>
              <Menu setChange={setChange} cartState={{cart, setCart}}/>
-             <Cart change={change} cartState={{cart, setCart}}/>
+             <Cart change={change} cartState={{cart, setCart}} saveCart={{saveCart, saveCartRes}}/>
         </div>
     </AppDiv>
   );

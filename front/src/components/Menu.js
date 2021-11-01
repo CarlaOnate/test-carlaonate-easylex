@@ -95,7 +95,7 @@ const GETPRODUCTS = gql`
 `
 
 function Menu({cartState, setChange}){
-    const {loading, error, data} = useQuery(GETPRODUCTS)
+    const {loading, data} = useQuery(GETPRODUCTS)
 
 
     const onHandleDelete = async ({target: {id}}) => {
@@ -156,8 +156,6 @@ function Menu({cartState, setChange}){
         const item = cartState.cart.items.find(el => type === el.item.type)
         return item ? item.qty : 0
     }
-
-    console.log(cartState.cart)
 
     return (
         <MenuDiv>
