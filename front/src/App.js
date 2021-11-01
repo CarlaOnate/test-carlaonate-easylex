@@ -101,7 +101,11 @@ function App() {
     })
 
     if(saveCartRes.data){
-        return <Cart change={change} cartState={{cart, setCart}} saveCart={{saveCart, saveCartRes}}/>
+        return(
+        <>
+            <h1>Tu selección final es la siguiente</h1>
+            <Cart change={change} cartState={{cart, setCart}} saveCart={{saveCart, saveCartRes}}/>
+        </>)
     }
 
     return (

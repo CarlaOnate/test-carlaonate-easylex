@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useCallback, useEffect, useMemo} from 'react'
+import {useEffect} from 'react'
 import {gql, useMutation} from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
 
@@ -178,15 +178,12 @@ function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCart
                 subtotal,
                 discount
             })
-            //This console is here to see the obj returned from the backend that was stored in the DB.
-            console.log("Cart saved in DB", cart)
         }
     }, [data, saveCartRes.data, setCart])
 
     const handleButtonClick = async () => {
         await saveCart({variables: {cart: cart}})
     }
-
 
     return (
         <CartDiv>
