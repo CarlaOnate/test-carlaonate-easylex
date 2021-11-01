@@ -78,9 +78,9 @@ const cartResolvers = {
                     const {price} = cart.items[termSheetIndex].item
                     if(qty > 2) cart.discount += (price-100)*qty
                 }
-
-                cart.subtotal = cart.items.map(el => el.qty*el.item.price).reduce((prev, current) => prev + current).toFixed(2)
-                cart.total = (cart.subtotal*1.16).toFixed(2)
+                cart.discount = cart.discount.toFixed(2)
+                cart.subtotal = (cart.items.map(el => el.qty*el.item.price).reduce((prev, current) => prev + current)-cart.discount).toFixed(2)
+                cart.total = ((cart.subtotal*1.16)-cart.discount).toFixed(2)
                 cart.save()
             } else {
                 cart.total = 0
