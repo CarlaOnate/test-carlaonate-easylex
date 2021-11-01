@@ -116,7 +116,7 @@ const Container = styled.div`
     @media screen 
     and (min-device-width : 768px) 
     and (max-device-width : 1281px){
-        ${props => !props.display && "display: none"}
+        ${props => !props.show && "display: none"}
     }
 `
 
@@ -126,6 +126,7 @@ const GETCART = gql`
         getCart(cartId: $cartId){
             items {
                 item {
+                    id
                     name
                     type
                     price
@@ -169,15 +170,15 @@ function Cart({change, cartID, setClicked}){
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
-            <Container display={cart && cart.items.length > 0}>
+            <Container show={cart && cart.items.length > 0}>
             {cart && (cart.items.map(el => (
-                <CartItem>
+                <CartItem key={el.item.id}>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
                     <p>${el.item.price} MXN</p>
                 </CartItem>
             )))}
             </Container>
-            <Container display={true}>
+            <Container show={true}>
                 <hr />
                 <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
                 <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
