@@ -10,7 +10,7 @@ Esta versión funciona correctamente, pero tiene un pequeño lag al momento de a
 
 
 ## Versión 2: 
-Esta versión hace la lógica principal del carrito en React y solo hace request al back cuando se tienen que calcular los precios y guardar ese carrito en la base da datos. El carrito se guarda solo cuando el usuario hace click en el botón de "Continuar".
+Esta versión hace la lógica principal del carrito en React y solo hace request al back cuando se tienen que calcular los precios y guardar ese carrito en la base de datos. El carrito se guarda solo cuando el usuario hace click en el botón de "Continuar".
 En esta aplicación el tiempo de respuesta es inmeidato por lo que no cuenta con el lag de la primera versión. La mayoría de la lógica principal de esta aplicacion se hace en React por lo que aquí se muestra el conocimiento de este Framework para hacer una app sencilla. 
 ![Version2](https://github.com/CarlaOnate/test-carlaonate-easylex/blob/main/Version2.gif)
 
