@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react'
 import { useQuery, gql } from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
 
-
+//Estilos del componente
 const CartDiv = styled.div`
     display: flex;
     margin: 5px;
@@ -83,7 +83,7 @@ const CartItem = styled.div`
         }
     }
 `
-
+//Se usa props para mostrar el componente discount con azul
 const Price = styled.div`    
     display: flex;
     width: 100%;
@@ -106,6 +106,7 @@ const Price = styled.div`
     }
 `
 
+//Se usa props para no mostrar el div de elementos en el carrito y el carrito esta vacío.
 const Container = styled.div`
     width: 85%;
     hr {
@@ -120,7 +121,7 @@ const Container = styled.div`
     }
 `
 
-
+//Se define el query para traer el carrito de la base de datos
 const GETCART = gql`
     query getCart($cartId: ID){
         getCart(cartId: $cartId){
@@ -144,9 +145,11 @@ const GETCART = gql`
 function Cart({change, cartID, setClicked}){
     const { loading, error, data, refetch } = useQuery(GETCART, {variables: {cartId: cartID}})
 
-
+//Estado en donde se guardan el carrito que se regresa en el query de GetCart
     const [cart, setCart] = useState()
 
+    //Se llama cuando se hace un cambio en el carrito en el componente de Menu
+    //Se hace un refetch del carrito actualizado para mostrarlo
     useEffect(() => {
         //Refetch
         const refetchCart = async () => {
@@ -155,11 +158,12 @@ function Cart({change, cartID, setClicked}){
         refetchCart().then().catch()
     }, [change, refetch])
 
+    //Se guarda el carrito actualizado en el estado solo cuando data no es nulo
     useEffect(() => {
         data && setCart(data.getCart)
     }, [data])
 
-
+    //Para manejar click del botón de continuar y hacer conditional rendering en App
     const handleOnClick = () => {
         setClicked(true)
     }
@@ -167,6 +171,7 @@ function Cart({change, cartID, setClicked}){
     if(loading) return <p>Loading...</p>
     if(error) return <p>sth went wrong</p>
 
+//Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
