@@ -16,7 +16,6 @@ En esta aplicación el tiempo de respuesta es inmeidato por lo que no cuenta con
 
 # Estilos:
 Estas dos aplicaciones cuentan con los mismos estilos, tiene media queries para Smartphone, Tablet y Desktop.
-Smartphone
 
 ## Smartphone
 ![SmartphoneImg](https://github.com/CarlaOnate/test-carlaonate-easylex/blob/main/mobileStyles.png)
