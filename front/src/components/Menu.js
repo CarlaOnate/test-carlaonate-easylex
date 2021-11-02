@@ -2,7 +2,7 @@ import styled, {css} from 'styled-components'
 import {useQuery, gql, useMutation} from "@apollo/client";
 import {useEffect, useState} from "react";
 
-
+//Estilos de este componente
 const MenuDiv = styled.div`
     display: flex;
     flex-grow: 1;
@@ -28,6 +28,8 @@ const MenuDiv = styled.div`
     }  
 `
 
+//Se hace uso de props de styled componentes para cambiar estilos en caso de selección
+//de algun elemento
 const Option = styled.div`
     display: flex;
     width: 85%;
@@ -78,7 +80,7 @@ const Option = styled.div`
 
 
 
-
+//Se define el query para traer productos guardados en DB
 const GETPRODUCTS = gql`
     query getProducts{
      getProducts {
@@ -89,18 +91,21 @@ const GETPRODUCTS = gql`
     }
 `
 
+//mutation para agregar elemento al carrito en el backend - regresa un string
 const ADDITEM = gql`
     mutation addItem($type: String, $cartId: ID){
         addItem(type: $type, cartId: $cartId)
     }
 `
 
+//mutation para borrar elemento del carrito en el backend - regresa un string
 const DELETEITEM = gql`
     mutation deleteItem($type: String, $cartId: ID){
         deleteItem(type: $type, cartId: $cartId)
     }
 `
 
+//query para traer elementos del carrito guardados en DB
 const GETCART = gql`
     query getCart($cartId: ID){
         getCart(cartId: $cartId){
@@ -117,27 +122,31 @@ const GETCART = gql`
 
 function Menu({setChange, cartID}){
     const {loading, data} = useQuery(GETPRODUCTS)
-
+    //query se llama cada vez que se hace un cambio en el carrito
     const updatedCart = useQuery(GETCART, {variables: {cartId: cartID}})
 
     const [addItem] = useMutation(ADDITEM, {refetchQueries: [GETCART, 'getCart']})
     const [delItem] = useMutation(DELETEITEM, {refetchQueries: [GETCART, 'getCart']})
 
+    //Estado para guardar el resultado de updatedCart, esto para que no se vea un cambio abrupto
+    //en nuestro componente cuando los elementos desaparecen mientas se espera respuesta del backend
     const [itemsState, setItems] = useState([])
 
+    //Se corre cada vez que cambio updatedCart que regresa el carrito actualizado después de un cambio
     useEffect(() => {
         if(updatedCart.data){
             setItems(updatedCart.data.getCart.items)
         }
     }, [updatedCart])
 
+    //Llama a la mutation para borrar el elemento del carrito en el backend
     const onHandleDelete = async ({target}) => {
         await delItem({
             variables: {type: target.id, cartId: cartID}
         })
         setChange(prev => !prev)
     }
-
+    //Llama a la mutation para agregar al elemento en el carrito en el backend
     const onHandleAdd = async ({target}) => {
         await addItem({
             variables: {type: target.id, cartId: cartID}
@@ -145,12 +154,14 @@ function Menu({setChange, cartID}){
         setChange(prev => !prev)
     }
 
+    //Regresa el valor de la llave qty para ser mostrado en el menu de opciones
+    //en caso de tener una selección
     const findQty = (type) => {
         const item = itemsState.find(el => type === el.item.type)
         return item ? item.qty : 0
     }
 
-
+//Esto muestra el menu de opciones de productos con botones para agregar o quitar del carrito
     return (
         <MenuDiv>
             {loading ? <p>Loading ...</p> : (

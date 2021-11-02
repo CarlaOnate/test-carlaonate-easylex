@@ -3,14 +3,16 @@ const Product = require("../models/Product")
 const productResolvers = {
 
     Query: {
+
         getProducts: async () => {
+            //Regresa productos que se tienen en colección de Products.
             return Product.find();
         }
 
     },
 
     Mutation: {
-        //This was called once to fill the DB with the products
+        //Esto se llamó manual para llenar la colección de Productos
         fillProducts: async () => {
             await Product.create({
                 name: "Confidencialidad",

@@ -1,5 +1,6 @@
 const {gql} = require("apollo-server-express")
 
+//Solo se tiene tipos de Output porque de input solo se usan Strings
 const types = gql`
     type Product {
         id: ID!
