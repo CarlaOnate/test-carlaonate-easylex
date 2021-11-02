@@ -3,7 +3,7 @@ import {useEffect} from 'react'
 import {gql, useMutation} from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
 
-
+//Abajo se encuentran los estilos de este componente
 const CartDiv = styled.div`
     display: flex;
     margin: 5px;
@@ -84,6 +84,8 @@ const CartItem = styled.div`
     }
 `
 
+//Este componente use props para poder mostrar en azul
+// solo el componente de discount
 const Price = styled.div`    
     display: flex;
     width: 100%;
@@ -96,7 +98,7 @@ const Price = styled.div`
     p:last-child {
         font-weight: bold;
     }
-    ${props => props.discount && "color: #1A2871;"}
+    ${props => props.discount && "color: #1A2871;"} 
     @media screen 
     and (min-device-width : 768px) 
     and (max-device-width : 1281px){
@@ -120,7 +122,7 @@ const Container = styled.div`
     }
 `
 
-
+//Aquí se define el "mutation" que se hará en nuestro servidor
 const CALCULATEPRICE = gql`
     mutation calculatePrice($cart: CartInput){
         calculatePrice(cart: $cart){
@@ -141,10 +143,13 @@ const CALCULATEPRICE = gql`
 `
 
 
-
+//Esta función es el componente donde se muestran los elementos seleccionados
+// con el precio calculado para los mismos.
 function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCartRes}}){
     const [calculatePrice, { data }] = useMutation(CALCULATEPRICE);
 
+    //Se calcula el precio solo cuando se agrega o elimina un
+    // elemento del carrito, este se mide con el estado "change"
     useEffect(() => {
         const calPrice = async () => {
             await calculatePrice({variables: {cart: cart}})
@@ -152,14 +157,16 @@ function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCart
         calPrice()
     }, [change, calculatePrice])
 
-
     useEffect(() => {
+    //Se edita el carrito con el precio calculado en el backend.
         data && setCart(prev => ({
             ...prev,
             subtotal: data.calculatePrice.subtotal,
             discount: data.calculatePrice.discount,
             total: data.calculatePrice.total
         }))
+    //Se remplaza el carrito por el objeto que regresa el backend
+    //El obj es igual al carrito que se guardo en nuestra base de datos.
         if(saveCartRes.data){
             const {items, total, subtotal, discount} = saveCartRes.data.saveCart
             setCart({
@@ -179,10 +186,15 @@ function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCart
         }
     }, [data, saveCartRes.data, setCart])
 
+    //Para mandar llamar la función de guardar carrito en la base de datos
     const handleButtonClick = async () => {
         await saveCart({variables: {cart: cart}})
     }
 
+    //Este componente muestra los precios de cada elemento selecionado si hay alguno
+    //muestra al igual el total, subtotal y el descuento.
+    //El botón de Continuar hace que el carrito almacenado en react hasta ahora se
+    //mande al backend para ser guardado en la base de datos.
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>

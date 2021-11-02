@@ -1,7 +1,7 @@
 import styled, {css} from 'styled-components'
 import {useQuery, gql} from "@apollo/client";
 
-
+//Estos son los estilos de los componentes
 const MenuDiv = styled.div`
     display: flex;
     flex-grow: 1;
@@ -26,7 +26,8 @@ const MenuDiv = styled.div`
         flex-grow: 2;
     }  
 `
-
+//En este componente se usan los props para identificar si el elemento ha sido seleccionado
+//si esto es correcto se le agregan los estilos correspondientes.
 const Option = styled.div`
     display: flex;
     width: 85%;
@@ -82,7 +83,7 @@ const Option = styled.div`
 
 
 
-
+//Se define el query para traer el array de productos que se ofrecen
 const GETPRODUCTS = gql`
     query getProducts{
      getProducts {
@@ -97,12 +98,13 @@ const GETPRODUCTS = gql`
 function Menu({cartState, setChange}){
     const {loading, data} = useQuery(GETPRODUCTS)
 
-
+//Función para eliminar elementos del carrito, cuando se hace click en -
     const onHandleDelete = async ({target: {id}}) => {
 
         const itemIndex = cartState.cart.items.findIndex(el => el.item.type === id)
 
         if(itemIndex >= 0){
+            //Se borra po completo el elemento del carrito ya que tiene 0 elementos
             if(cartState.cart.items[itemIndex].qty === 1){
                 cartState.setCart(prev => {
                     let itemsCopy = [...prev.items]
@@ -113,6 +115,7 @@ function Menu({cartState, setChange}){
                     }
                 })
             } else {
+                //Se le resta 1 a la llave qty de ese elemento pero no se elimina por completo del carrito
                 cartState.setCart(prev => {
                     let itemsCopy = [...prev.items]
                     itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty - 1})
@@ -123,12 +126,16 @@ function Menu({cartState, setChange}){
                 })
             }
         }
+        //Se cambia la variable change para poder decirle al estado de
+        //Cart que se tiene que volver a calcular el precio.
         setChange(prev => !prev)
     }
 
+    //Función para agregar elemento al carrito, se llama cuando se hace click en +
     const onHandleAdd = async ({target: {id}}) => {
         const itemIndex = cartState.cart.items.findIndex(el => el.item.type === id)
         if(itemIndex >= 0){
+            //El elemento esta en el carrito por lo que solo se le suma 1 a la llave qty de ese elemento
             cartState.setCart(prev => {
                 let itemsCopy = [...prev.items]
                 itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty + 1})
@@ -138,6 +145,8 @@ function Menu({cartState, setChange}){
                 }
             })
         } else {
+            //Si el no esta en el carrito se agrega buscando sus datos dentro de la lista de productos
+            // y agregándolo al carrito con llave qty de 1
             if(data){
                 const {id: itemId, name, price, type} = data.getProducts.find(el => el.type === id)
                 cartState.setCart(prev => ({
@@ -152,11 +161,13 @@ function Menu({cartState, setChange}){
         setChange(prev => !prev)
     }
 
+    //Esta función busca un elemento y regresa el valor en qty para poder mostrarlo entre los botones + y -
     const findQty = (type) => {
         const item = cartState.cart.items.find(el => type === el.item.type)
         return item ? item.qty : 0
     }
 
+    //Aquí se muestra el menu de opciones, la lista de productos con botones para agregar o quitar elementos.
     return (
         <MenuDiv>
             {loading ? <p>Loading ...</p> : data && (

@@ -4,6 +4,7 @@ import { useMutation, gql } from "@apollo/client";
 import styled from 'styled-components'
 import {useState} from "react";
 
+//Estos son los estilos de este componente
 const AppDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -67,7 +68,8 @@ const AppDiv = styled.div`
     }
 `
 
-
+//Se define la mutación para guardar el carrito en la DB
+//Esto se llama aquí porque se hace conditional rendering dependiendo del resultado de esta mutation
 const SAVECART = gql`
     mutation saveCart($cart: CartInput){
         saveCart(cart: $cart){
@@ -90,7 +92,7 @@ const SAVECART = gql`
 
 function App() {
     const [saveCart, saveCartRes] = useMutation(SAVECART);
-
+// Estados para manejar cambio en carrito y guardar los cambios que se hagan al mismo
     const [change, setChange] = useState(false);
     const [cart, setCart] = useState({
         id: "",
@@ -100,6 +102,7 @@ function App() {
         discount: 0
     })
 
+    //Si se ha guardado el carrito en la base de datos mostrar solo el componente Cart
     if(saveCartRes.data){
         return(
         <>
@@ -108,6 +111,7 @@ function App() {
         </>)
     }
 
+    //Se llaman los dos componentes de la app y se les pasan los datos por props
     return (
     <AppDiv>
         <h1>Selecciona los contratos que necesitas:</h1>

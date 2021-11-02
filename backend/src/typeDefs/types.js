@@ -1,6 +1,9 @@
 const {gql} = require("apollo-server-express")
 
+//Estos son los tipos que se usarán en nuestro backend
+//Los valores de type son para output y los de input son para input de los queries o mutations.
 const types = gql`
+    #Outputs
     type Product {
         id: ID!
         name: String
@@ -20,7 +23,7 @@ const types = gql`
         item: Product
         qty: Int
     }
-    
+    #Inputs
     input CartInput {
         id: ID
         items: [ItemInput]

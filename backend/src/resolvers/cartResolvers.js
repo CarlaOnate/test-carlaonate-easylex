@@ -4,6 +4,7 @@ const Cart = require("../models/Cart")
 const cartResolvers = {
 
     Query: {
+        //Busca el carrito en la base de datos y lo regresa al front
         getCart: async (_, {cartId}) => {
             const cart = await Cart.findById(cartId).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]}).then().catch();
             return cart
@@ -12,6 +13,7 @@ const cartResolvers = {
 
     Mutation: {
         saveCart: async (_, {cart}) => {
+            //se crea un nuevo carrito en la base de datos con los valores del cart guardado en react hasta este momento y lo regresa
             const newCart = await Cart.create({items: cart.items.map(el => ({
                     item: el.item.id,
                     qty: el.qty
@@ -34,7 +36,8 @@ const cartResolvers = {
             }
         },
         calculatePrice: async (_, {cart}) => {
-                cart.discount = 0
+            //Se calculan los descuentos usando el carrito hasta ese momento
+                cart.discount = 0 //Se inicializa la llave descuento
                 //Calculate discounts
                 if(cart.items.length > 0){
                     const ndaIndex = cart.items.findIndex(el => el.item.type === "Nda")
@@ -52,10 +55,13 @@ const cartResolvers = {
                         const {price} = cart.items[termSheetIndex].item
                         if(qty > 2) cart.discount += (price-100)*qty
                     }
+                    //Se le agrega un toFixed para que numeros no tengan mas de dos decimales
                     cart.discount = cart.discount.toFixed(2)
                     cart.subtotal = (cart.items.map(el => el.qty*el.item.price).reduce((prev, current) => prev + current)-cart.discount).toFixed(2)
                     cart.total = ((cart.subtotal*1.16)-cart.discount).toFixed(2)
                 } else {
+                    //Si nuestro carrito esta vacío se agregan los valores restantes del precio como 0
+                    //Esto hace reset los precios cuando se eliminan los elementos del carrito
                     cart.total = 0
                     cart.subtotal = 0
                 }

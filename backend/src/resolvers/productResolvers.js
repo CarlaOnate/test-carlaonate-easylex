@@ -4,13 +4,14 @@ const productResolvers = {
 
     Query: {
         getProducts: async () => {
+            //Regresa todos los productos que tiene en la colección de Products dentro de la base de datos
             return Product.find();
         }
 
     },
 
     Mutation: {
-        //This was called once to fill the DB with the products
+        //Rellena la colección de productos, se uso manualmente para llenar la base de datos.
         fillProducts: async () => {
             await Product.create({
                 name: "Confidencialidad",
