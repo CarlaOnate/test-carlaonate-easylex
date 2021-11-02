@@ -54,7 +54,6 @@ const cartResolvers = {
                 //Borrarlo del array en caso de que solo existe 1 elemento de ese tipo
                 if(cart.items[itemIndex].qty === 1){
                     const newItems = cart.items.splice(itemIndex, 1)
-                    console.log(newItems)
                 } else {
                     //Restarle 1 a la cantidad de ese elemento cuando qty sea mayor a 1
                     cart.items[itemIndex].qty -= 1
