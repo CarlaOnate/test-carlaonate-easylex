@@ -9,7 +9,9 @@ export const PRODUCT_SERVICE = {
 
 
 export const CART_SERVICE = {
-    saveCart: async () => await service.post('cart/save'),
-    calculatePrice: async (cart) => await service.get('cart/price', cart)
+    getCart: async (id) => await service.get(`/cart/${id}`),
+    saveCart: async (cart) => await service.post('/cart/save', cart),
+    calculatePrice: async (cart) => await service.put('/cart/price', cart)
+
 }
 

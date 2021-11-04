@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 
-const {saveCart, calculatePrice} = require('../controllers/Cart')
+const {getCart, saveCart, calculatePrice} = require('../controllers/Cart')
 
+router.get('/:id', getCart)
 router.post('/save', saveCart)
-router.get('/price', calculatePrice) //Todo: Sería get???
+router.put('/price', calculatePrice) //Todo: Sería get???
 
 module.exports = router

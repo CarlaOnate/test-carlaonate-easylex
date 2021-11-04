@@ -1,7 +1,9 @@
 import Menu from "./components/Menu"
 import Cart from "./components/Cart"
 import styled from 'styled-components'
-import {useEffect, useState} from "react";
+import cartContext from "./context/cartContext";
+import {useContext, useEffect, useState} from "react";
+import {CART_SERVICE} from "./services";
 
 
 
@@ -74,25 +76,31 @@ function App() {
     //boton de continuar
     const [change, setChange] = useState(false);
     const [continueClicked, setContinueClicked] = useState(false)
-    const [cart, setCart] = useState({
-        id: '',
-        items: [],
-        subtotal: 0,
-        discount: 0,
-        total: 0
-    })
+    const [cartItems, setCartItems] = useState([])
+    const [cartRes, setCartRes] = useState()
+    const context = useContext(cartContext)
+    console.log("APP context", context)
 
-if(!cart) return <p>Loading...</p>
+    useEffect(() => {
+        const fetchCart = async () => {
+            const {data} = await CART_SERVICE.getCart(context.id)
+            setCartRes(data.cart)
+        }
+        fetchCart()
+    }, [continueClicked, context.id])
 
     //Si se picó el botón de continuar se muestra esto
 if(continueClicked){
+    console.log("App, cart", cartRes)
     return (
         <>
             <h1>Tu selección fue la siguiente:</h1>
-            <Cart change={change} cartID={cart}/>
+            <Cart change={change} setClicked={setContinueClicked} cartItems={cartRes.items}/>
         </>
     )
 }
+
+if(!cartItems) return <p>Loading...</p>
 
 //Se muestran los componentes de la aplicación y se les pasan los estados por props
     return (
@@ -100,8 +108,8 @@ if(continueClicked){
         <h1>Selecciona los contratos que necesitas:</h1>
         <p>Eliges todos los documentos que necesites y realiza tu pago. Contéstalos y descárgalos cuando los necesites.</p>
         <div>
-             <Menu setChange={setChange} cartState={{cart, setCart}}/>
-             <Cart change={change} cartState={{cart, setCart}}/>
+             <Menu setChange={setChange} cartState={{cartItems, setCartItems}}/>
+             <Cart change={change} setClicked={setContinueClicked} cartItems={cartItems}/>
         </div>
     </AppDiv>
   );

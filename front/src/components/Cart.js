@@ -1,8 +1,10 @@
 import styled from 'styled-components'
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import {ReactComponent as Arrow} from '../arrow.svg'
 //Axios service
 import {CART_SERVICE} from "../services";
+import axios from "axios";
+import cartContext from "../context/cartContext";
 
 //Estilos del componente
 const CartDiv = styled.div`
@@ -123,30 +125,50 @@ const Container = styled.div`
 `
 
 
-function Cart({change, setClicked}){
-    const [cart, setCart] = useState()
+function Cart({change, cartItems, setClicked}){
+    const context = useContext(cartContext)
+    console.log("context", context)
+
+
+    const [prices, setPrices] = useState({
+        subtotal: 0,
+        discount: 0,
+        total: 0
+    })
+
 
     useEffect(() => {
-        async function getPrices() {
-            const {data} = await CART_SERVICE.calculatePrice(cart)
-            console.log("prices data", data)
+        const fetchPrices = async () => {
+            const {data} = await CART_SERVICE.calculatePrice({items: cartItems})
+            data && setPrices({
+                    subtotal: data.cart.subtotal,
+                    discount: data.cart.discount,
+                    total: data.cart.total
+            })
         }
-        getPrices()
-    }, [change])
-
+        fetchPrices()
+        return () => {
+            //Cleanup
+            const source = axios.CancelToken.source()
+            source.cancel()
+        }
+    }, [change, cartItems])
 
     //Para manejar click del botón de continuar y hacer conditional rendering en App
-    const handleOnClick = () => {
+    const handleOnClick = async () => {
+        const {data} = await CART_SERVICE.saveCart({items: cartItems, subtotal: prices.subtotal, discount: prices.discount, total: prices.total})
+        if(data) context.id = data.id
         setClicked(true)
     }
 
+    console.log("cartItems",  cartItems)
 //Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
-            <Container show={cart && cart.items.length > 0}>
-            {cart && (cart.items.map(el => (
-                <CartItem key={el.item.id}>
+            <Container show={cartItems && cartItems.length > 0}>
+            {cartItems && (cartItems.map(el => (
+                <CartItem key={el.item._id}>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
                     <p>${el.item.price} MXN</p>
                 </CartItem>
@@ -154,11 +176,11 @@ function Cart({change, setClicked}){
             </Container>
             <Container show={true}>
                 <hr />
-                <Price><p>Subtotal</p> <p>${cart && cart.subtotal} MXN</p></Price>
-                <Price discount={true}><p>Discount</p> <p>- ${cart && cart.discount} MXN</p></Price>
-                <Price><p>IVA</p> <p>${cart && (cart.subtotal*0.16).toFixed(2)} MXN</p></Price>
+                <Price><p>Subtotal</p> <p>${prices && prices.subtotal} MXN</p></Price>
+                <Price discount={true}><p>Discount</p> <p>- ${prices && prices.discount} MXN</p></Price>
+                <Price><p>IVA</p> <p>${prices && (prices.subtotal*0.16).toFixed(2)} MXN</p></Price>
                 <hr />
-                <Price><p>Total</p> <p>${cart && cart.total} MXN</p></Price>
+                <Price><p>Total</p> <p>${prices && prices.total} MXN</p></Price>
             </Container>
             <button onClick={handleOnClick}>
                 <div>
