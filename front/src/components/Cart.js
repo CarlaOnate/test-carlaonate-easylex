@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import {useEffect, useState} from 'react'
-import { useQuery, gql } from "@apollo/client";
 import {ReactComponent as Arrow} from '../arrow.svg'
+//Axios service
+import {CART_SERVICE} from "../services";
 
 //Estilos del componente
 const CartDiv = styled.div`
@@ -121,55 +122,23 @@ const Container = styled.div`
     }
 `
 
-//Se define el query para traer el carrito de la base de datos
-const GETCART = gql`
-    query getCart($cartId: ID){
-        getCart(cartId: $cartId){
-            items {
-                item {
-                    id
-                    name
-                    type
-                    price
-                }
-                qty
-            }
-            subtotal
-            discount
-            total
-        }
-    }
-`
 
-
-function Cart({change, cartID, setClicked}){
-    const { loading, error, data, refetch } = useQuery(GETCART, {variables: {cartId: cartID}})
-
-//Estado en donde se guardan el carrito que se regresa en el query de GetCart
+function Cart({change, setClicked}){
     const [cart, setCart] = useState()
 
-    //Se llama cuando se hace un cambio en el carrito en el componente de Menu
-    //Se hace un refetch del carrito actualizado para mostrarlo
     useEffect(() => {
-        //Refetch
-        const refetchCart = async () => {
-            await refetch()
+        async function getPrices() {
+            const {data} = await CART_SERVICE.calculatePrice(cart)
+            console.log("prices data", data)
         }
-        refetchCart().then().catch()
-    }, [change, refetch])
+        getPrices()
+    }, [change])
 
-    //Se guarda el carrito actualizado en el estado solo cuando data no es nulo
-    useEffect(() => {
-        data && setCart(data.getCart)
-    }, [data])
 
     //Para manejar click del botón de continuar y hacer conditional rendering en App
     const handleOnClick = () => {
         setClicked(true)
     }
-
-    if(loading) return <p>Loading...</p>
-    if(error) return <p>sth went wrong</p>
 
 //Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
     return (

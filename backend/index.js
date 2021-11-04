@@ -46,8 +46,7 @@ app.use('/', index)
 app.use('/cart', require('./src/routes/cart'))
 app.use('/products', require('./src/routes/products'))
 
-
-
+module.exports = app
 
 
 //

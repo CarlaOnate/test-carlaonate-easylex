@@ -1,6 +1,8 @@
 import styled, {css} from 'styled-components'
-import {useQuery, gql, useMutation} from "@apollo/client";
 import {useEffect, useState} from "react";
+//service
+import axios from 'axios'
+import {PRODUCT_SERVICE, service} from '../services/index'
 
 //Estilos de este componente
 const MenuDiv = styled.div`
@@ -79,96 +81,98 @@ const Option = styled.div`
 
 
 
+function Menu({setChange, cartState: {cart, setCart}}){
+    const [products, setItems] = useState([])
 
-//Se define el query para traer productos guardados en DB
-const GETPRODUCTS = gql`
-    query getProducts{
-     getProducts {
-         id
-         name
-         type
-     }
-    }
-`
+    useEffect(() => {
+        const getProducts = async () => {
+            const {data} = await PRODUCT_SERVICE.getProducts()
+            setItems(data.products)
+        }
+        getProducts()
+        return () => {
+            //Cleanup
+            const source = axios.CancelToken.source()
+            source.cancel()
+        }
+    }, [])
 
-//mutation para agregar elemento al carrito en el backend - regresa un string
-const ADDITEM = gql`
-    mutation addItem($type: String, $cartId: ID){
-        addItem(type: $type, cartId: $cartId)
-    }
-`
 
-//mutation para borrar elemento del carrito en el backend - regresa un string
-const DELETEITEM = gql`
-    mutation deleteItem($type: String, $cartId: ID){
-        deleteItem(type: $type, cartId: $cartId)
-    }
-`
+    const onHandleDelete = async ({target: {id}}) => {
+        const itemIndex = cart.items.findIndex(el => el.item.type === id)
 
-//query para traer elementos del carrito guardados en DB
-const GETCART = gql`
-    query getCart($cartId: ID){
-        getCart(cartId: $cartId){
-            items {
-                item {
-                    type
-                }
-                qty
+        if(itemIndex >= 0){
+            //Se borra po completo el elemento del carrito ya que tiene 0 elementos
+            if(cart.items[itemIndex].qty === 1){
+                setCart(prev => {
+                    let itemsCopy = [...prev.items]
+                    itemsCopy.splice(itemIndex, 1)
+                    return {
+                        ...prev,
+                        items: itemsCopy
+                    }
+                })
+            } else {
+                //Se le resta 1 a la llave qty de ese elemento pero no se elimina por completo del carrito
+                setCart(prev => {
+                    let itemsCopy = [...prev.items]
+                    itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty - 1})
+                    return {
+                        ...prev,
+                        items: itemsCopy
+                    }
+                })
             }
         }
-    }
-`
-
-
-function Menu({setChange, cartID}){
-    const {loading, data} = useQuery(GETPRODUCTS)
-    //query se llama cada vez que se hace un cambio en el carrito
-    const updatedCart = useQuery(GETCART, {variables: {cartId: cartID}})
-
-    const [addItem] = useMutation(ADDITEM, {refetchQueries: [GETCART, 'getCart']})
-    const [delItem] = useMutation(DELETEITEM, {refetchQueries: [GETCART, 'getCart']})
-
-    //Estado para guardar el resultado de updatedCart, esto para que no se vea un cambio abrupto
-    //en nuestro componente cuando los elementos desaparecen mientas se espera respuesta del backend
-    const [itemsState, setItems] = useState([])
-
-    //Se corre cada vez que cambio updatedCart que regresa el carrito actualizado después de un cambio
-    useEffect(() => {
-        if(updatedCart.data){
-            setItems(updatedCart.data.getCart.items)
-        }
-    }, [updatedCart])
-
-    //Llama a la mutation para borrar el elemento del carrito en el backend
-    const onHandleDelete = async ({target}) => {
-        await delItem({
-            variables: {type: target.id, cartId: cartID}
-        })
+        //Se cambia la variable change para poder decirle al estado de
+        //Cart que se tiene que volver a calcular el precio.
         setChange(prev => !prev)
     }
-    //Llama a la mutation para agregar al elemento en el carrito en el backend
-    const onHandleAdd = async ({target}) => {
-        await addItem({
-            variables: {type: target.id, cartId: cartID}
-        })
+
+
+    const onHandleAdd = async ({target: {id}}) => {
+        const itemIndex = cart.items.findIndex(el => el.item.type === id)
+        if(itemIndex >= 0){
+            //El elemento esta en el carrito por lo que solo se le suma 1 a la llave qty de ese elemento
+            setCart(prev => {
+                let itemsCopy = [...prev.items]
+                itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty + 1})
+                return {
+                    ...prev,
+                    items: itemsCopy
+                }
+            })
+        } else {
+            //Si el no esta en el carrito se agrega buscando sus datos dentro de la lista de productos
+            // y agregándolo al carrito con llave qty de 1
+                const {id: itemId, name, price, type} = products.find(el => el.type === id)
+                setCart(prev => ({
+                    ...prev,
+                    items: [
+                        ...prev.items,
+                        {item: {id: itemId, name, price, type}, qty: 1}
+                    ]
+                }))
+            }
         setChange(prev => !prev)
     }
 
     //Regresa el valor de la llave qty para ser mostrado en el menu de opciones
     //en caso de tener una selección
     const findQty = (type) => {
-        const item = itemsState.find(el => type === el.item.type)
+        const item = cart.items.find(el => type === el.item.type)
         return item ? item.qty : 0
     }
+
 
 //Esto muestra el menu de opciones de productos con botones para agregar o quitar del carrito
     return (
         <MenuDiv>
-            {loading ? <p>Loading ...</p> : (
-                data.getProducts.map(({id, type, name}) => (
-                    <Option key={id} selected={itemsState.length > 0 && findQty(type)}>
+            {products.length === 0 ? <p>Loading ...</p> : (
+                products.map(({id, type, name}) => (
+                    <Option key={id} selected={cart.items.length > 0 && findQty(type)}>
                         <button id={type} onClick={onHandleDelete}>-</button>
-                        <p>{itemsState.length > 0 ? findQty(type) : 0}</p>
+                        <p>{cart.items.length > 0 ? findQty(type) : 0}</p>
                         <button id={type} onClick={onHandleAdd}>+</button>
                         <p>{name}</p>
                     </Option>
