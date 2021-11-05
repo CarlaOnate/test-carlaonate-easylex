@@ -1,0 +1,24 @@
+#cartItem {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#cartItem p {
+    margin: 10px 0px 10px 0px;
+}
+#cartItem p:nth-child(2){
+    flex-grow: 2;
+    margin-left: 4px;
+}
+#cartItem p:last-child {
+    font-weight: bold;
+}
+
+@media screen
+and (min-device-width : 768px)
+and (max-device-width : 1281px){
+    #cartItem p {
+        font-size: 17px;
+    }
+}

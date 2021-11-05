@@ -1,0 +1,26 @@
+#price {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    }
+#price p {
+    margin: 10px 0px 10px 0px;
+}
+
+#price p:last-child {
+    font-weight: bold;
+}
+
+.discount {
+    color: #1A2871;
+}
+
+@media screen
+and (min-device-width : 768px)
+and (max-device-width : 1281px){
+    #price p {
+        font-size: 17px;
+    }
+}

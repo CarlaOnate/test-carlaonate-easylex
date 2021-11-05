@@ -1,11 +1,9 @@
 import Menu from "./components/Menu"
 import Cart from "./components/Cart"
-import styled from 'styled-components'
 import cartContext from "./context/cartContext";
 import {useContext, useEffect, useState} from "react";
 import {CART_SERVICE} from "./services";
 import "./styles/App.css"
-
 
 
 function App() {
@@ -15,7 +13,6 @@ function App() {
     const [cartItems, setCartItems] = useState([])
     const [cartRes, setCartRes] = useState()
     const context = useContext(cartContext)
-    console.log("APP context", context)
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -36,7 +33,6 @@ if(continueClicked){
     )
 }
 
-if(!cartItems) return <p>Loading...</p>
 
 //Se muestran los componentes de la aplicación y se les pasan los estados por props
     return (

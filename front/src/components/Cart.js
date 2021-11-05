@@ -1,10 +1,15 @@
+import React from 'react'
 import styled from 'styled-components'
 import {useEffect, useState, useContext} from 'react'
 import {ReactComponent as Arrow} from '../arrow.svg'
+import CartItem from "./CartItem";
+import Price from "./Price";
 //Axios service
 import {CART_SERVICE} from "../services";
 import axios from "axios";
 import cartContext from "../context/cartContext";
+//styles
+import '../styles/Cart.css'
 
 
 const CartDiv = styled.div`
@@ -63,51 +68,28 @@ const CartDiv = styled.div`
     }
 `
 
-const CartItem = styled.div`
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    p {
-        margin: 10px 0px 10px 0px;
-    }
-    p:nth-child(2){
-        flex-grow: 2;
-        margin-left: 4px;
-    }
-    p:last-child {
-        font-weight: bold;
-    }
-    @media screen 
-    and (min-device-width : 768px) 
-    and (max-device-width : 1281px){
-        p {
-            font-size: 17px;
-        }
-    }
-`
-
-const Price = styled.div`    
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    p {
-        margin: 10px 0px 10px 0px;
-    }
-    p:last-child {
-        font-weight: bold;
-    }
-    ${props => props.discount && "color: #1A2871;"}
-    @media screen 
-    and (min-device-width : 768px) 
-    and (max-device-width : 1281px){
-        p {
-            font-size: 17px;
-        }
-    }
-`
+//
+// const Price = styled.div`
+//     display: flex;
+//     width: 100%;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     align-items: center;
+//     p {
+//         margin: 10px 0px 10px 0px;
+//     }
+//     p:last-child {
+//         font-weight: bold;
+//     }
+//     ${props => props.discount && "color: #1A2871;"}
+//     @media screen
+//     and (min-device-width : 768px)
+//     and (max-device-width : 1281px){
+//         p {
+//             font-size: 17px;
+//         }
+//     }
+// `
 
 const Container = styled.div`
     width: 85%;
@@ -126,7 +108,6 @@ const Container = styled.div`
 
 function Cart({change, cartItems, setClicked}){
     const context = useContext(cartContext)
-    console.log("context", context)
 
 
     const [prices, setPrices] = useState({
@@ -160,18 +141,14 @@ function Cart({change, cartItems, setClicked}){
         setClicked(true)
     }
 
-    console.log("cartItems",  cartItems)
+    console.log("cart",  cartItems)
+
 //Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
     return (
-        <CartDiv>
+        <div id="cart">
             <h4>Actualización de Precio</h4>
             <Container show={cartItems && cartItems.length > 0}>
-            {cartItems && (cartItems.map(el => (
-                <CartItem key={el.item._id}>
-                    <p>{el.qty}</p> <p>{el.item.name} </p>
-                    <p>${el.item.price} MXN</p>
-                </CartItem>
-            )))}
+                {cartItems && (cartItems.map(el => <CartItem el={el}/>))}
             </Container>
             <Container show={true}>
                 <hr />
@@ -187,8 +164,7 @@ function Cart({change, cartItems, setClicked}){
                     <Arrow />
                 </div>
             </button>
-        </CartDiv>
-
+        </div>
     )
 }
 

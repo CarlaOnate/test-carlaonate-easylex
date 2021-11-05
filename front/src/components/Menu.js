@@ -1,87 +1,11 @@
-import styled, {css} from 'styled-components'
+import styled from 'styled-components'
 import {useEffect, useState} from "react";
+import Option from "./Option";
 //service
 import axios from 'axios'
 import {PRODUCT_SERVICE} from '../services/index'
-
-
-const MenuDiv = styled.div`
-    display: flex;
-    flex-grow: 1;
-    margin: 5px;
-    gap: 20px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 2px 8px 20px #f5f5f5;
-    border-radius: 15px; 
-    
-    @media screen 
-    and (min-device-width : 375px) 
-    and (max-device-width : 768px){
-      font-size: 11px;
-    }
-    @media screen 
-    and (min-device-width : 768px) 
-    and (max-device-width : 1281px){
-        height: 100%;
-        justify-content: flex-start;
-        flex-grow: 2;
-    }  
-`
-
-const Option = styled.div`
-    display: flex;
-    width: 85%;
-    max-height: 25px;
-    flex-direction: row;
-    align-items: center;
-    padding: 5px;
-    text-align: center;
-    button {
-        border: none;
-        background-color: white;
-    }
-    button:first-child{
-        padding-bottom: 4px;
-    }
-    p:nth-child(2) {
-        margin: 0px 2px 0px 2px;
-        padding: 1px 3px 2px 3px;
-        border: 1px solid #DBDBDA;
-        border-radius: 5px;    
-    }   
-    p:last-child{
-        text-align: center;
-        margin: 0px 0px 0px 15px;
-    }
-    border: 1px solid #DBDBDA;
-    border-radius: 10px;    
-    ${props => props.selected > 0 && css`
-            border: none;
-            color: #4EC9C5;
-            button {
-                color: #4EC9C5;
-            }
-            p:nth-child(2) {
-                 border: 1px solid #4EC9C5;
-            }  
-            box-shadow: 2px 8px 10px #f5f5f5;
-    `}
-    @media screen 
-    and (min-device-width : 375px) 
-    and (max-device-width : 667px){
-        button {
-          font-size: 11px;
-        }
-    }
-    @media screen 
-    and (min-device-width : 768px) 
-    and (max-device-width : 1024px){
-       
-    }
-`
-
+//styles
+import '../styles/Menu.css'
 
 
 function Menu({setChange, cartState: {cartItems, setCartItems}}){
@@ -90,6 +14,7 @@ function Menu({setChange, cartState: {cartItems, setCartItems}}){
     useEffect(() => {
         const getProducts = async () => {
             const {data} = await PRODUCT_SERVICE.getProducts()
+            console.log("data", data)
             setItems(data.products)
         }
         getProducts()
@@ -130,9 +55,7 @@ function Menu({setChange, cartState: {cartItems, setCartItems}}){
             let itemsCopy = [...cartItems]
             itemsCopy.splice(itemIndex, 1, {...itemsCopy[itemIndex], qty: itemsCopy[itemIndex].qty + 1})
             setCartItems(itemsCopy)
-
         } else {
-            //TODO:  AQUI SE JODE EL ID!
             //Si el no esta en el carrito se agrega buscando sus datos dentro de la lista de productos
             // y agregándolo al carrito con llave qty de 1
                 const {_id: itemId, name, price, type} = products.find(el => el.type === id)
@@ -151,18 +74,13 @@ function Menu({setChange, cartState: {cartItems, setCartItems}}){
 
 //Esto muestra el menu de opciones de productos con botones para agregar o quitar del carrito
     return (
-        <MenuDiv>
+        <div id="menu">
             {products.length === 0 ? <p>Loading ...</p> : (
-                products.map(({_id, type, name}) => (
-                    <Option key={_id} selected={cartItems.length > 0 && findQty(type)}>
-                        <button id={type} onClick={onHandleDelete}>-</button>
-                        <p>{cartItems.length > 0 ? findQty(type) : 0}</p>
-                        <button id={type} onClick={onHandleAdd}>+</button>
-                        <p>{name}</p>
-                    </Option>
+                products.map((el) => (
+                    <Option key={el._id} el={el} cartItems={cartItems} findQty={findQty} handleAdd={onHandleAdd} handleDel={onHandleDelete}/>
                 ))
             )}
-        </MenuDiv>
+        </div>
     )
 }
 
