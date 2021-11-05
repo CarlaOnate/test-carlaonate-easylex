@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import Option from "./Option";
 //service
 import axios from 'axios'
-import {PRODUCT_SERVICE} from '../services/index'
+import {PRODUCT_SERVICE} from '../../services'
 //styles
-import '../styles/Menu.css'
+import '../../styles/Menu.css'
 
 
 function Menu({setChange, cartState: {cartItems, setCartItems}}){

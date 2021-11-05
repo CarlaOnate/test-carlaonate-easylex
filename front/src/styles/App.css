@@ -53,14 +53,14 @@ and (max-device-width : 1281px){
         margin-top: 5vh;
         font-size: 25px;
     }
-    .app div {
+    .app>div {
          gap: 5%;
          margin: 5%;
          width: 80%;
          flex-direction: row;
          align-items: flex-start;
      }
-     .app p {
+     .app>p {
          width: 80%;
          font-size: .9rem;
     }

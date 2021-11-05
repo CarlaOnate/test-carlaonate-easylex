@@ -1,6 +1,6 @@
 import React from 'react'
 //styles
-import '../styles/Container.css'
+import '../../styles/Container.css'
 
 
 function Container({children, show}){

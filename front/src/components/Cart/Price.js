@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/Price.css'
+import '../../styles/Price.css'
 
 function Price({children, discount}){
 

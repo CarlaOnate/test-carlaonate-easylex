@@ -1,5 +1,6 @@
 #cart {
     display: flex;
+    height: 100%;
     gap: 5px;
     margin: 5px;
     padding-bottom: 30px;
@@ -46,7 +47,7 @@
 @media screen
 and (min-device-width : 768px)
 and (max-device-width : 1500px){
-    #cart{
+    #cart {
         height: 100%;
         flex-grow: 1;
         justify-content: flex-start;

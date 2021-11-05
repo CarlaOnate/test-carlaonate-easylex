@@ -27,6 +27,7 @@ and (max-device-width : 1281px){
         height: 100%;
         justify-content: flex-start;
         flex-grow: 2;
+        padding: 0;
     }
     #menu button {
         font-size: 17px;

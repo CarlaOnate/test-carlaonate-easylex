@@ -1,15 +1,15 @@
 import React from 'react'
 import {useEffect, useState, useContext} from 'react'
-import {ReactComponent as Arrow} from '../arrow.svg'
+import {ReactComponent as Arrow} from '../../arrow.svg'
 import CartItem from "./CartItem";
 import Price from "./Price";
 import Container from "./Container";
 //Axios service
-import {CART_SERVICE} from "../services";
+import {CART_SERVICE} from "../../services";
 import axios from "axios";
-import cartContext from "../context/cartContext";
+import cartContext from "../../context/cartContext";
 //styles
-import '../styles/Cart.css'
+import '../../styles/Cart.css'
 
 
 function Cart({change, cartItems, setClicked}){
