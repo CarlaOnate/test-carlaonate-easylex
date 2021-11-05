@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f222326-b272-4db4-9659-63947ae7863f" name="Default Changelist" comment="" />
+    <list default="true" id="1f222326-b272-4db4-9659-63947ae7863f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,10 +30,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="208yiXsVJayA4a4L8afAljNhIol" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -60,10 +65,10 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/front/src" />
-      <recent name="$PROJECT_DIR$/front/public" />
       <recent name="$PROJECT_DIR$/backend/src" />
       <recent name="$PROJECT_DIR$/backend" />
+      <recent name="$PROJECT_DIR$/front/src" />
+      <recent name="$PROJECT_DIR$/front/public" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -75,6 +80,8 @@
       <option name="presentableId" value="Default" />
       <updated>1635440637497</updated>
       <workItem from="1635440638782" duration="45585000" />
+      <workItem from="1635892684736" duration="64000" />
+      <workItem from="1635963191833" duration="24033000" />
     </task>
     <servers />
   </component>
@@ -82,7 +89,15 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="oldMeFiltersMigrated" value="true" />
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="2568" y="5" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1635447655646">
@@ -97,14 +112,19 @@
       <screen x="0" y="25" width="2560" height="1415" />
     </state>
     <state x="513" y="306" key="SettingsEditor/0.25.2560.1415@0.25.2560.1415" timestamp="1635629916231" />
-    <state x="1900" y="82" key="run.anything.popup" timestamp="1635443592696">
-      <screen x="1280" y="-431" width="2560" height="1415" />
-    </state>
-    <state x="1900" y="82" key="run.anything.popup/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635443592696" />
-    <state x="1141" y="310" width="840" height="1034" key="search.everywhere.popup" timestamp="1635629913545">
+    <state x="1094" y="25" width="698" height="973" key="dock-window-1" timestamp="1635981516073">
       <screen x="0" y="25" width="2560" height="1415" />
     </state>
-    <state x="2421" y="-146" width="840" height="1034" key="search.everywhere.popup/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635545897719" />
+    <state x="1094" y="25" width="698" height="973" key="dock-window-1/0.25.2560.1415@0.25.2560.1415" timestamp="1635981516073" />
+    <state x="620" y="538" key="run.anything.popup" timestamp="1635994760255">
+      <screen x="0" y="25" width="2560" height="1415" />
+    </state>
+    <state x="1900" y="82" key="run.anything.popup/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635443592696" />
+    <state x="620" y="538" key="run.anything.popup/0.25.2560.1415@0.25.2560.1415" timestamp="1635994760255" />
+    <state x="2421" y="-146" width="840" height="1034" key="search.everywhere.popup" timestamp="1635818328762">
+      <screen x="1280" y="-431" width="2560" height="1415" />
+    </state>
+    <state x="2421" y="-146" width="840" height="1034" key="search.everywhere.popup/0.25.1280.775/1280.-431.2560.1415@1280.-431.2560.1415" timestamp="1635818328762" />
     <state x="1141" y="310" width="840" height="1034" key="search.everywhere.popup/0.25.2560.1415@0.25.2560.1415" timestamp="1635629913545" />
   </component>
 </project>

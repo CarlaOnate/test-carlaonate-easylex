@@ -1,9 +1,12 @@
 import styled from 'styled-components'
-import {useEffect} from 'react'
-import {gql, useMutation} from "@apollo/client";
+import {useEffect, useState, useContext} from 'react'
 import {ReactComponent as Arrow} from '../arrow.svg'
+//Axios service
+import {CART_SERVICE} from "../services";
+import axios from "axios";
+import cartContext from "../context/cartContext";
 
-//Abajo se encuentran los estilos de este componente
+
 const CartDiv = styled.div`
     display: flex;
     margin: 5px;
@@ -43,7 +46,7 @@ const CartDiv = styled.div`
     }
     @media screen 
     and (min-device-width : 768px) 
-    and (max-device-width : 1281px){
+    and (max-device-width : 1500px){
         height: 100%;
         flex-grow: 1;
         height: 100%;
@@ -84,8 +87,6 @@ const CartItem = styled.div`
     }
 `
 
-//Este componente use props para poder mostrar en azul
-// solo el componente de discount
 const Price = styled.div`    
     display: flex;
     width: 100%;
@@ -98,7 +99,7 @@ const Price = styled.div`
     p:last-child {
         font-weight: bold;
     }
-    ${props => props.discount && "color: #1A2871;"} 
+    ${props => props.discount && "color: #1A2871;"}
     @media screen 
     and (min-device-width : 768px) 
     and (max-device-width : 1281px){
@@ -122,85 +123,51 @@ const Container = styled.div`
     }
 `
 
-//Aquí se define el "mutation" que se hará en nuestro servidor
-const CALCULATEPRICE = gql`
-    mutation calculatePrice($cart: CartInput){
-        calculatePrice(cart: $cart){
-            discount
-            total
-            subtotal
-            items {
-                item {
-                    id
-                    type
-                    price
-                    name
-                }
-                qty
-            }
-        }
-    }
-`
+
+function Cart({change, cartItems, setClicked}){
+    const context = useContext(cartContext)
+    console.log("context", context)
 
 
-//Esta función es el componente donde se muestran los elementos seleccionados
-// con el precio calculado para los mismos.
-function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCartRes}}){
-    const [calculatePrice, { data }] = useMutation(CALCULATEPRICE);
+    const [prices, setPrices] = useState({
+        subtotal: 0,
+        discount: 0,
+        total: 0
+    })
 
-    //Se calcula el precio solo cuando se agrega o elimina un
-    // elemento del carrito, este se mide con el estado "change"
-    useEffect(() => {
-        const calPrice = async () => {
-            await calculatePrice({variables: {cart: cart}})
-        }
-        calPrice()
-    }, [change, calculatePrice])
 
     useEffect(() => {
-    //Se edita el carrito con el precio calculado en el backend.
-        data && setCart(prev => ({
-            ...prev,
-            subtotal: data.calculatePrice.subtotal,
-            discount: data.calculatePrice.discount,
-            total: data.calculatePrice.total
-        }))
-    //Se remplaza el carrito por el objeto que regresa el backend
-    //El obj es igual al carrito que se guardo en nuestra base de datos.
-        if(saveCartRes.data){
-            const {items, total, subtotal, discount} = saveCartRes.data.saveCart
-            setCart({
-                items: items.map(el => ({
-                    qty: el.qty,
-                    item: {
-                        id: el.item.id,
-                        name: el.item.name,
-                        price: el.item.price,
-                        type: el.item.type
-                    }
-                })),
-                total,
-                subtotal,
-                discount
+        const fetchPrices = async () => {
+            const {data} = await CART_SERVICE.calculatePrice({items: cartItems})
+            data && setPrices({
+                    subtotal: data.cart.subtotal,
+                    discount: data.cart.discount,
+                    total: data.cart.total
             })
         }
-    }, [data, saveCartRes.data, setCart])
+        fetchPrices()
+        return () => {
+            //Cleanup
+            const source = axios.CancelToken.source()
+            source.cancel()
+        }
+    }, [change, cartItems])
 
-    //Para mandar llamar la función de guardar carrito en la base de datos
-    const handleButtonClick = async () => {
-        await saveCart({variables: {cart: cart}})
+    //Para manejar click del botón de continuar y hacer conditional rendering en App
+    const handleOnClick = async () => {
+        const {data} = await CART_SERVICE.saveCart({items: cartItems, subtotal: prices.subtotal, discount: prices.discount, total: prices.total})
+        if(data) context.id = data.id
+        setClicked(true)
     }
 
-    //Este componente muestra los precios de cada elemento selecionado si hay alguno
-    //muestra al igual el total, subtotal y el descuento.
-    //El botón de Continuar hace que el carrito almacenado en react hasta ahora se
-    //mande al backend para ser guardado en la base de datos.
+    console.log("cartItems",  cartItems)
+//Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
     return (
         <CartDiv>
             <h4>Actualización de Precio</h4>
-            <Container show={cart.items.length > 0}>
-            {(cart.items.map(el => (
-                <CartItem key={el.item.id}>
+            <Container show={cartItems && cartItems.length > 0}>
+            {cartItems && (cartItems.map(el => (
+                <CartItem key={el.item._id}>
                     <p>{el.qty}</p> <p>{el.item.name} </p>
                     <p>${el.item.price} MXN</p>
                 </CartItem>
@@ -208,19 +175,20 @@ function Cart({change, cartState: {cart, setCart}, saveCart: {saveCart, saveCart
             </Container>
             <Container show={true}>
                 <hr />
-                <Price><p>Subtotal</p> <p>${data && data.calculatePrice.subtotal} MXN</p></Price>
-                <Price discount={true}><p>Discount</p> <p>- ${data && data.calculatePrice.discount} MXN</p></Price>
-                <Price><p>IVA</p> <p>${data && (data.calculatePrice.subtotal*0.16).toFixed(2)} MXN</p></Price>
+                <Price><p>Subtotal</p> <p>${prices && prices.subtotal} MXN</p></Price>
+                <Price discount={true}><p>Discount</p> <p>- ${prices && prices.discount} MXN</p></Price>
+                <Price><p>IVA</p> <p>${prices && (prices.subtotal*0.16).toFixed(2)} MXN</p></Price>
                 <hr />
-                <Price><p>Total</p> <p>${data && data.calculatePrice.total} MXN</p></Price>
+                <Price><p>Total</p> <p>${prices && prices.total} MXN</p></Price>
             </Container>
-            <button onClick={handleButtonClick}>
+            <button onClick={handleOnClick}>
                 <div>
                     <p>Continuar</p>
                     <Arrow />
                 </div>
             </button>
         </CartDiv>
+
     )
 }
 
