@@ -1,5 +1,6 @@
 #cart {
     display: flex;
+    gap: 5px;
     margin: 5px;
     padding-bottom: 30px;
     flex-grow: 2;

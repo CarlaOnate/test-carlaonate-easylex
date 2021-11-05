@@ -9,39 +9,41 @@
     border: 1px solid #DBDBDA;
     border-radius: 10px;
 }
+
 #option button {
     border: none;
     background-color: white;
 }
 
-#option button:first-child{
+#option button:first-child {
     padding-bottom: 4px;
 }
+
 #option p:nth-child(2) {
     margin: 0 2px 0 2px;
     padding: 1px 3px 2px 3px;
     border: 1px solid #DBDBDA;
     border-radius: 5px;
 }
-#option p:last-child{
+
+#option p:last-child {
     text-align: center;
     margin: 0 0 0 15px;
 }
 
-.selected {
+#option.selected {
     border: none;
     color: #4EC9C5;
     box-shadow: 2px 8px 10px #f5f5f5;
 }
 
-.selected p:nth-child(2) {
-   border: 1px solid #4EC9C5;
+#option.selected p:nth-child(2) {
+    border: 1px solid #4EC9C5;
 }
 
-.selected button {
+#option.selected button {
     color: #4EC9C5;
 }
-
 
 @media screen
 and (min-device-width : 375px)
