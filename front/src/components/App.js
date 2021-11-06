@@ -4,6 +4,7 @@ import cartContext from "../context/cartContext";
 import {useContext, useEffect, useState} from "react";
 import {CART_SERVICE} from "../services";
 import "../styles/App.css"
+import axios from "axios";
 
 //
 function App() {
@@ -20,6 +21,11 @@ function App() {
             setCartRes(data.cart)
         }
         fetchCart()
+        return () => {
+            //Cleanup
+            const source = axios.CancelToken.source()
+            source.cancel()
+        }
     }, [continueClicked, context.id])
 
     //If continue button is clicked then render this
