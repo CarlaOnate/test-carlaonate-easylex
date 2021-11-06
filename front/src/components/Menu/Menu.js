@@ -4,12 +4,13 @@ import Option from "./Option";
 import axios from 'axios'
 import {PRODUCT_SERVICE} from '../../services'
 //styles
-import '../../styles/Menu.css'
+import '../../styles/Menu/Menu.css'
 
-
+//This component provides the logic and the view for the Menu options so the user can select products to add to the cart
 function Menu({setChange, cartState: {cartItems, setCartItems}}){
     const [products, setItems] = useState([])
 
+    //Saves the products on local state for further use
     useEffect(() => {
         const getProducts = async () => {
             const {data} = await PRODUCT_SERVICE.getProducts()

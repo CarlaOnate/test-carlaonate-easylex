@@ -21,6 +21,29 @@
   <component name="ChangeListManager">
     <list default="true" id="1f222326-b272-4db4-9659-63947ae7863f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/controllers/Cart/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/controllers/Cart/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/routes/cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/routes/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/arrow.svg" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/icons/arrow.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Cart/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Cart/Cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Cart/CartItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Cart/CartItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Cart/Container.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Cart/Container.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Cart/Price.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Cart/Price.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Menu/Menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Menu/Menu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/components/Menu/Option.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/components/Menu/Option.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/config/apollo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/context/cartContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/context/cartContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/services/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/services/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles/Cart.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles/Cart/Cart.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles/CartItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles/Cart/CartItem.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles/Container.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles/Cart/Container.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles/Menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles/Menu/Menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles/Option.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles/Menu/Option.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/styles/Price.css" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/styles/Cart/Price.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +53,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -65,10 +88,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/backend/src" />
-      <recent name="$PROJECT_DIR$/backend" />
-      <recent name="$PROJECT_DIR$/front/src" />
-      <recent name="$PROJECT_DIR$/front/public" />
+      <recent name="$PROJECT_DIR$/front/src/icons" />
+      <recent name="$PROJECT_DIR$/front/src/components" />
+      <recent name="$PROJECT_DIR$/front/src/styles/Menu" />
+      <recent name="$PROJECT_DIR$/front/src/styles/Cart" />
+      <recent name="$PROJECT_DIR$/front/src/components/Menu" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -82,6 +106,7 @@
       <workItem from="1635440638782" duration="45585000" />
       <workItem from="1635892684736" duration="64000" />
       <workItem from="1635963191833" duration="24033000" />
+      <workItem from="1636224906829" duration="1126000" />
     </task>
     <servers />
   </component>
@@ -98,6 +123,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2568" y="5" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1635447655646">

@@ -1,6 +1,6 @@
 import React from 'react'
 import {useEffect, useState, useContext} from 'react'
-import {ReactComponent as Arrow} from '../../arrow.svg'
+import {ReactComponent as Arrow} from '../../icons/arrow.svg'
 import CartItem from "./CartItem";
 import Price from "./Price";
 import Container from "./Container";
@@ -9,9 +9,9 @@ import {CART_SERVICE} from "../../services";
 import axios from "axios";
 import cartContext from "../../context/cartContext";
 //styles
-import '../../styles/Cart.css'
+import '../../styles/Cart/Cart.css'
 
-
+//This component render the cart items selecte and the calculated price of those items
 function Cart({change, cartItems, setClicked}){
     const context = useContext(cartContext)
 
@@ -21,6 +21,7 @@ function Cart({change, cartItems, setClicked}){
         total: 0
     })
 
+    //Make req to backend to calculate the price of the current cart
     useEffect(() => {
         const fetchPrices = async () => {
             const {data} = await CART_SERVICE.calculatePrice({items: cartItems})
@@ -38,22 +39,20 @@ function Cart({change, cartItems, setClicked}){
         }
     }, [change, cartItems])
 
-    //Para manejar click del botón de continuar y hacer conditional rendering en App
+    //handle continue button click and change render on App.js
     const handleOnClick = async () => {
+        setClicked(true)
         const {data} = await CART_SERVICE.saveCart({items: cartItems, subtotal: prices.subtotal, discount: prices.discount, total: prices.total})
         if(data) context.id = data.id
-        setClicked(true)
     }
 
-    console.log("cart",  cartItems)
 
-//Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
-    //Todo: El container sería solo estilos de este componentes o sería separado?
+//Shows the cart with the current price
     return (
         <div id="cart">
             <h4>Actualización de Precio</h4>
             <Container show={cartItems && cartItems.length > 0}>
-                {cartItems && (cartItems.map(el => <CartItem el={el}/>))}
+                {cartItems && (cartItems.map(el => <CartItem key={el.item._id} el={el}/>))}
             </Container>
             <Container show={true}>
                 <hr />

@@ -1,11 +1,11 @@
 import React from 'react'
-import '../../styles/Price.css'
+import '../../styles/Cart/Price.css'
 
+//Price component with defined sytles
 function Price({children, discount}){
 
-//Muestra el carrito actual con los precios de esos productos ya con el descuento calculado
     return (
-        <div id="price" className={discount && "discount"}>
+        <div id="price" className={discount ?  "discount" : undefined}>
             {children}
         </div>
     )

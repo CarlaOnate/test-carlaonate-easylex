@@ -4,8 +4,8 @@ const router = express.Router();
 
 const {getCart, saveCart, calculatePrice} = require('../controllers/Cart')
 
-router.get('/:id', getCart)
-router.post('/save', saveCart)
-router.put('/price', calculatePrice) //Todo: Sería get???
+router.get('/:id', getCart)  //get cart from DB with id
+router.post('/save', saveCart) //save cart in DB and return cartId
+router.put('/price', calculatePrice) //Calculate price of current cart
 
 module.exports = router

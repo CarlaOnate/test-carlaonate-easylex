@@ -1,5 +1,6 @@
 const Cart = require('../../models/Cart')
 
+//get cart by id and return result
 exports.getCart = async (req, res) => {
     const {id} = req.params
     const cart = await Cart.findById(id).populate({path: 'items', populate: [{path: 'item', ref: 'Product'}]}).then().catch()
@@ -12,6 +13,7 @@ exports.getCart = async (req, res) => {
     }})
 }
 
+//Create new cart from front cart to the DB and return the id
 exports.saveCart = async ({body: cart}, res) => {
     // se crea un nuevo carrito en la base de datos con los valores del cart guardado en react hasta este momento y lo regresa
     const newCart = await Cart.create({
@@ -24,7 +26,7 @@ exports.saveCart = async ({body: cart}, res) => {
     res.status(200).json({id: newCart._id})
 }
 
-
+//Calculate current prices from cartItems and return updated cart
 exports.calculatePrice = async ({body: cart}, res) => {
     //Se calculan los descuentos usando el carrito hasta ese momento
     cart.discount = 0 //Se inicializa la llave descuento

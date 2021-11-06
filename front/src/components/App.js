@@ -1,13 +1,13 @@
-import Menu from "./components/Menu/Menu"
-import Cart from "./components/Cart/Cart"
-import cartContext from "./context/cartContext";
+import Menu from "./Menu/Menu"
+import Cart from "./Cart/Cart"
+import cartContext from "../context/cartContext";
 import {useContext, useEffect, useState} from "react";
-import {CART_SERVICE} from "./services";
-import "./styles/App.css"
+import {CART_SERVICE} from "../services";
+import "../styles/App.css"
 
-
+//
 function App() {
-    //boton de continuar
+    //botón de continuar
     const [change, setChange] = useState(false);
     const [continueClicked, setContinueClicked] = useState(false)
     const [cartItems, setCartItems] = useState([])
@@ -22,19 +22,19 @@ function App() {
         fetchCart()
     }, [continueClicked, context.id])
 
-    //Si se picó el botón de continuar se muestra esto
+    //If continue button is clicked then render this
 if(continueClicked){
     console.log("App, cart", cartRes)
     return (
         <>
             <h1>Tu selección fue la siguiente:</h1>
-            <Cart change={change} setClicked={setContinueClicked} cartItems={cartRes.items}/>
+            <Cart change={change} setClicked={setContinueClicked} cartItems={cartItems}/>
         </>
     )
 }
 
 
-//Se muestran los componentes de la aplicación y se les pasan los estados por props
+//The two main components are rendered here: Menu and Cart
     return (
     <div className="app">
         <h1>Selecciona los contratos que necesitas:</h1>
