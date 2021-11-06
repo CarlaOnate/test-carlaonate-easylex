@@ -2,6 +2,10 @@
 
 Se tiene dos versiones de la misma aplicación, cada una es una solución diferente al mismo problema.
 
+## Mejoras
+Se resolvió este challenge ahora con el uso de express y una arquitectura de MVC en el backend. Al igual se agregaron funciones cleanup en los componetnes de react donde se hacen llamadas al backend para prevenir memory leaks. Los estilos se mantienen igual que en las versiones pasadas, estos se pueden ver al final de este Readme.
+
+# Previo a mejoras
 ## Versión 1:
 Esta versión es la que esta en la rama main en donde la lógica principal es que cada cambio que se hiciera al carrito (cuando se agrega o elimina un elemento) este cambio fuera guardado en la base de datos y se regresara el carrito actualizado.
 Se hizo de esta manera para poder mostrar más extensamente el manejo del backend con graphql.
